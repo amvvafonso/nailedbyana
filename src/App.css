@@ -1,0 +1,34 @@
+:root {
+    --primary: rgb(80,80,80);
+    --secondary: rgb(254, 255, 254);
+    --third: rgb(17, 21, 28);
+}
+
+
+
+
+
+@font-face {
+    font-family: Cormorant-Regular;
+    src: url("/src/fonts/Cormorant/static/Cormorant-Regular.ttf");
+}
+
+@font-face {
+    font-family: Cormorant-Light;
+    src: url("/src/fonts/Cormorant/static/Cormorant-Light.ttf");
+}
+
+h1 {
+    font-family: Cormorant-Regular;
+}
+h2 {
+    font-family: Cormorant-Regular;
+}
+p {
+    font-family: 'Open Sans';
+
+}
+
+
+
+
