@@ -1,0 +1,130 @@
+
+/* ------------------ Contact ------------------ */
+
+.content {
+    width: 80%;
+    height: 100px;
+    margin: auto;
+    text-align: center;
+}
+
+.contact-title {
+    margin-top: 50px;
+    font-size: 50px;
+}
+
+.contact-content {
+    text-align: left;
+    width: 70%;
+    margin: auto;
+}
+
+.contact-subtitle {
+    font-size: 40px;
+}
+
+.contact-description {
+    color: #9d9d9d;
+    font-size: 17px;
+    width: 55%;
+}
+
+.contact-link {
+    font-size: 19px;
+    color: black;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+/* ------------------ About ------------------ */
+
+.about-outer-div {
+    margin-top: 60px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 500px;
+}
+
+.about-image {
+    width: 100%;
+}
+
+.about-image-div {
+    width: 40%;
+}
+
+.about-description-div {
+    width: 100%;
+    text-align: left;
+    font-size: 20px;
+}
+
+.about-description {
+    color: #666;
+}
+.about-title {
+    font-size: 55px;
+    font-weight: lighter;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------  ANIMATIONS ---------------------- */
+
+
+
+.animationCenter1s {
+    transform: translateX(-100vw);
+    animation: slideToCenter 1s ease-out forwards, 3s ease-in-out infinite;
+}
+
+.duration1s {
+    animation-timeline: 5s;
+}
+
+
+.delay1s {
+    animation-delay: 1s;
+}
+.delay2s {
+    animation-delay: 1s;
+}
+.delay3s {
+    animation-delay: 1s;
+}
+
+
+
+
+
+
+
+
+@keyframes slideToCenter {
+    to {
+        transform: translateX(0);
+
+    }
+}
+
