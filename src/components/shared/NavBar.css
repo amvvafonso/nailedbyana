@@ -6,6 +6,7 @@
     height: 4.125rem;
     align-content: center;
     background-color: white;
+    z-index: 1;
 }
 
 .nav-bar-inner-div {
