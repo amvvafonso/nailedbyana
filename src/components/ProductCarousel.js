@@ -5,10 +5,13 @@ import "primeicons/primeicons.css";
 import ProductTemplate from "./ProductTemplate";
 
 export default function ProductCarrousel(props) {
+
+  const products = props.data
+
   return (
     <>
       <div style={{ width: "60%", margin: "auto" }}>
-        {props.data ? (
+        {products ? (
           <>
             <h1
               style={{
@@ -18,22 +21,19 @@ export default function ProductCarrousel(props) {
                 fontFamily: "Cormorant-Regular",
               }}
             >
-              {props.title}
+              {products.title}
             </h1>
 
             <Carousel
               showIndicators={false}
               numVisible={3}
               numScroll={1}
-              value={props.data}
+              value={products}
               circular
               autoplayInterval={10000}
               itemTemplate={(item) => (
                 <ProductTemplate
-                  title={item.name}
-                  image={item.image}
-                  price={item.price + "€"}
-                  type={item.type}
+                  product={item}
                 />
               )}
             />
