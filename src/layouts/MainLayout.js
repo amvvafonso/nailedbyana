@@ -7,11 +7,14 @@ export default function MainLayout(){
 
     return (
         <> 
+        
             <NavBar />
-            <div style={{minHeight : '100vh'}}>
+            
+            <div className="layout">
                 <Outlet/>
             </div>
             <PageFooter/>
+        
         </>
     )
 }

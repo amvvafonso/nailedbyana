@@ -12,21 +12,21 @@ export default function ProductTemplate(product){
         <>    
                 <div onClick={() => setVisible(true)} className="product-outer-div">
                     <div className="product-image-div">
-                        <img alt="Product" style={{width : '100%', height : '100%'}} src={selected.image}/>
+                        <img alt="Product" className="product-image" src={selected.image}/>
                     </div>
                     <div className="product-description-div">
-                        <p className="product-title">{selected.name}<br/><span className="product-price">{selected.price}</span></p>
+                        <p className="product-title">{selected.name}<br/><span className="product-price">{selected.price}€</span></p>
                     </div>
                 </div>
-                 <Dialog closeOnEscape draggable={false} visible={visible} style={{ width: '70vw'}} onHide={() => {if (!visible) return; setVisible(false); }}>
+                 <Dialog closeOnEscape draggable={false} visible={visible}  className="dialog-div" onHide={() => {if (!visible) return; setVisible(false); }}>
                         <div className="outer-div">
                             <div className="image-div">  
-                                <img style={{width : '100%'}} src={selected.image} />
+                                <img alt="proocutDialog" style={{width : '100%'}} src={selected.image} />
                             </div>
                             <div className="product-div">
                                 <h1 className="dialog-title">{selected.name}</h1>
                                 <p>{selected.state}</p>
-                                <p>De momento, não é possível reservar online! <br/> Caso deseja reservar envie mensagem privada para <a style={{textDecoration : 'none', color : '#666', fontWeight : 'bold'}} target="_blank" href="https://ig.me/m/naiiledbyana?text=Hello">@naiiledbyana</a>.</p>
+                                <p>De momento, não é possível reservar online! <br/> Caso deseja reservar envie mensagem privada para <a style={{textDecoration : 'none', color : '#666', fontWeight : 'bold'}} rel="noreferrer" target="_blank" href="https://ig.me/m/naiiledbyana?text=Hello">@naiiledbyana</a>.</p>
                                 <p className="dialog-price">{selected.price}€</p>
                                 
                                 <br/>

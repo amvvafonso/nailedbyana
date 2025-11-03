@@ -85,7 +85,7 @@
 }
 
 .banner-button {
-    background-color: white;
+    background-color: transparent;
     margin-top: 20px;
     width: 40%;
     height: 70px;
@@ -99,6 +99,19 @@
     cursor: pointer;
 }
 
+/* -------------------- ProductCarrousel --------------------*/
+
+.carousel-div {
+    width: 60%;
+    margin: auto;
+}
+.carousel-title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: lighter;
+    font-family: Cormorant-Regular;
+
+}
 
 /* -------------------- ProductTemplate --------------------*/
 
@@ -112,17 +125,23 @@
     padding-top: 5px;
     cursor: pointer;
 
+
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
 }
 
 .product-outer-div:hover {
     transition: 0.4s;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
     scale: 1.1;
+    z-index: 1;
 }
 
 .product-image-div{
     width: 100%;
-    height: 80%;
     overflow: hidden;
 }
 
@@ -136,9 +155,112 @@
     font-weight: lighter;
     font-family: 'Open Sans';
     font-size: 20px;
+
 }
 
 .product-price {
     color: #666;
     font-size: 16px;
+    height: fit-content;
+}
+
+
+.dialog-div {
+    width: 70vw;
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 600px){
+    .home-banner-div{
+        width: 100%;
+    }
+    .home-banner-inner-div {
+        width: 90%;
+        display: grid;
+    }
+    .banner-button {
+        background-color: white;
+        border-style: solid;
+        border-width: 1px;
+        height: 50px;  
+        border-radius: 1px;
+        border-color: #9d9d9d;
+    }
+
+    .banner-image-div {
+        width: 100%;
+    }
+    .banner-image {
+        width: 100%;
+    }
+
+
+    .carousel-div {
+        margin-top: 150px;
+        width: 100%;
+
+    }
+
+    .product-outer-div {
+        margin: auto;
+        padding: 2px 2px 2px 2px;
+        z-index: 1;
+    }
+    .product-outer-div:hover {
+        scale: 1;
+        box-shadow: none;
+    }
+    .product-title {
+        font-size: 25px;
+    }
+    .product-price {
+        font-size: 20px;
+    }
+
+
+    .dialog-div {
+        width: 100% !important;
+    }
+
+    .product-outer-div {
+        display: grid;
+    }
+
+    .outer-div {
+        width: 100%;
+        display: contents !important;
+    }   
+
+    .image-div {
+        width: 100%;
+        height: 100%;
+    }
+    .product-div {
+        width: 100%;
+        margin: 0;
+        text-align: center;
+    }
+    .product-image {
+        width: 80%;
+        height: 100%;
+    }
+    .product-image-div {
+        text-align: center;
+    }
+    .product-outer-div {
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        cursor: pointer;
+
+    }
+    .dialog-button {
+        align-self: center;
+    }
 }
