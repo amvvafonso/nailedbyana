@@ -1,10 +1,10 @@
 export default function About(){
     return (
         <>
-            <div className="content">
+            <div id="about" className="content">
                 <div className="about-outer-div">
                     <div className="about-image-div">
-                        <img className="about-image" src="./assets/about.webp" />
+                        <img alt="about" className="about-image" src="./assets/about.webp" />
                     </div>
                     <div className="about-description-div">
                         <h1 className="about-title">BY ANA</h1>
@@ -13,8 +13,6 @@ export default function About(){
                         <p className="about-description">Acreditamos que a elegância deve ser vivida, não guardada. Por isso, escolhemos peças versáteis, modernas e confortáveis, feitas para acompanhar cada momento sem preocupações.</p>
                     </div>
                 </div>
-                
-
             </div>
         </>
     )

@@ -61,8 +61,10 @@ export default function ProductPage(props){
                 <>
                 <h1 style={{fontSize : '50px', textAlign : 'center', fontWeight : 'lighter'}}>Produtos</h1>
                 <div style={{textAlign : 'center'}}>
-                    <button className="filter-button" id={0} onClick={() => filter(0)}>Todos</button>
+                    <button style={{display : 'none'}} className="filter-button" id={0} onClick={() => filter(0)}>Todos</button>
                     {types.map((e) => <button className="filter-button" id={e.type_id} onClick={() => filter(e)}>{e.type}</button>)}
+                    <br/>
+                    <br/>
                     </div>
                 <div
                         style={{

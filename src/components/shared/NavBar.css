@@ -1,12 +1,12 @@
 
-
+/* ------------------ NavBar ------------------ */
 
 .nav-bar-div {
     width: 99vw;
     height: 4.125rem;
     align-content: center;
     background-color: white;
-    z-index: 1;
+    z-index: 2;
 }
 
 .nav-bar-inner-div {
@@ -24,7 +24,7 @@
 
 .by-ana {
     font-family: Cormorant-Light;
-    font-size: 2.5em;
+    font-size: 2.4em;
     color: var(--primary);
 }
 
@@ -58,10 +58,112 @@
     top: 0;
     box-shadow: 0 .3125rem .9375rem 0 rgba(0, 0, 0, .07);
 }
+.hide {
+    
+}
+
+.visi {
+    display: none;
+}
+/* ------------------ NavBar Mobile ------------------ */
+
+@media (max-width: 600px){
+    .hide {
+        display: none;
+    }
+
+    .visi {
+        display: contents;
+    }
+
+    .nav-bar-div {
+        display: none;
+
+    }
+    .nav-bar-mobile-div{
+        width: 100%;
+        margin: auto;
+        z-index: 10;
+    }
+    .nav-bar-inner-mobile-div{
+        width: 80%;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .by-ana{
+        font-size: 21px;
+        font-weight: lighter;
+        width: 100px;
+    }
+    .toggle-button-div {
+        text-align: right;
+        width: 100%;
+    }
+
+    .nav-bar-visible {
+        background-color: white;
+        position: fixed;
+        
+    }
+
+
+    .toggle {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .toggle:hover {
+        border-radius: 50px;
+    }
+   
+
+        #navBarContent {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+
+            /* hidden */
+            transition: transform 0.4s;
+        }
+    
+        .nav-bar-mobile-content-visible {
+            transform: translateX(0);
+            /* slide in */
+     }
+    
+        .nav-bar-mobile-content-hidden {
+            transform: translateX(100%);
+            /* slide out */
+        }
+
+    .nav-bar-inner-content-div {
+        width: 100%;
+        display: grid;
+        margin-left: 10px;
+        margin-top: 50%;
+        height: 10%;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        border-bottom: solid;
+        border-width: 1px;
+        border-color: rgba(80, 80, 80, 0.3);
+        height: fit-content;
+        width: 100%;
+        font-size: 25px;
+    }
 
 
 
-
+}
 
 
 

@@ -9,6 +9,6 @@ import FullscreenLoading from './components/Loading';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
       <React.Suspense fallback={<FullscreenLoading/>}>
-        <App />
+          <App />
       </React.Suspense>
 );

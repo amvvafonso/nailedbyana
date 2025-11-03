@@ -7,12 +7,12 @@ export default function PageFooter(){
             <div className="main-footer-div">
                 <div className="content-div">
                     <div>
-                        <h2 className="footer-title">BY ANA</h2>
+                        <h2 className="footer-title">BY ANA.</h2>
                     </div>
                     <div>
                         <h2 className="footer-title">INFORMAÇÃO</h2>
                     </div>
-                    <div >
+                    <div>
                         <h2 className="footer-title">LOJA</h2>
                         <div style={{display : 'grid'}}>
                             <Link className="footer-content" to={"about"} >Sobre nós</Link>

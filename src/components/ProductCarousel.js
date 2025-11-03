@@ -3,30 +3,27 @@ import "primereact/resources/themes/lara-light-blue/theme.css"; // or another th
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import ProductTemplate from "./ProductTemplate";
+import { useState } from "react";
 
 export default function ProductCarrousel(props) {
-
+  const [width, setWidth] = useState(window.screen.width)
   const products = props.data
+
 
   return (
     <>
-      <div style={{ width: "60%", margin: "auto" }}>
+      <div className="carousel-div">
         {products ? (
           <>
             <h1
-              style={{
-                textAlign: "center",
-                fontSize: "40px",
-                fontWeight: "lighter",
-                fontFamily: "Cormorant-Regular",
-              }}
+              className="carousel-title"
             >
-              {products.title}
+              {props.title}
             </h1>
 
             <Carousel
               showIndicators={false}
-              numVisible={3}
+              numVisible={width > 600 ? 3 : 2}
               numScroll={1}
               value={products}
               circular
