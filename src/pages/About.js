@@ -1,7 +1,9 @@
+import "./Pages.css"
+
 export default function About(){
     return (
         <>
-            <div id="about" className="content">
+            <div style={{minHeight : '100vh !important'}} id="about" className="content">
                 <div className="about-outer-div">
                     <div className="about-image-div">
                         <img alt="about" className="about-image" src="./assets/about.webp" />
