@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 
-.filter-button-active {
+.filter-button:focus {
     background-color: rgba(80, 80, 80, 0.2);
     color: black !important;
 }
@@ -93,11 +93,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 500px;
+
 }
 .content#about {
     width: 80%;
-    height: 100vh;
+    min-height: 100vh;
     margin: auto;
     text-align: center;
 }
@@ -131,9 +131,7 @@
     .about-image-div {
         width: 100%;
     }
-    .content#about {
-        height: 150vh;
-    }
+
    
 }
 

@@ -3,14 +3,14 @@
 
 .nav-bar-div {
     width: 99vw;
-    height: 4.125rem;
+    height: 4.525rem;
     align-content: center;
     background-color: white;
     z-index: 2;
 }
 
 .nav-bar-inner-div {
-    width: 65%;
+    width: 75%;
     margin: auto;
     height: 100%;
     display: flex;
@@ -20,6 +20,7 @@
 .by-ana-div {
     width: 20%;
     align-self: center;
+    cursor: pointer;
 }
 
 .by-ana {
@@ -83,6 +84,8 @@
     .nav-bar-mobile-div{
         width: 100%;
         margin: auto;
+        height: 3em;
+        align-content: center;
         z-index: 10;
     }
     .nav-bar-inner-mobile-div{

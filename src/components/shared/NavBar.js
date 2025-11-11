@@ -1,6 +1,5 @@
 import "./NavBar.css"
-import {Link} from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import 'primeicons/primeicons.css';
 import NavBarComponent from "./NavBarComponent";
 
@@ -34,10 +33,7 @@ function NavBar(){
 
     return (
         <>
-            
             <NavBarComponent/>
-            
-
         </>
     )
 }

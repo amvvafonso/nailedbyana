@@ -1,4 +1,6 @@
-const API_URL = "";
+const API_URL = "http://nailedbyana.pt";
 
 
 export default API_URL;
+
+
