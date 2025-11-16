@@ -9,7 +9,6 @@ export default function ProductCarrousel(props) {
 
   const [width ] = useState(window.screen.width)
   const products = props.data
-
   const [randomProducts, setRandomProducts] = useState([])
   
   const random = () => {
@@ -20,7 +19,7 @@ export default function ProductCarrousel(props) {
         if(i === products.length) {
           break
         }
-        let current = Math.floor(Math.random() * 10)
+        let current = Math.floor(Math.random() * products.length)
         if(!used.includes(current) && products[current].state === 'AVAILABLE'){
             number.push(products[current])
             used.push(current)
@@ -52,7 +51,7 @@ export default function ProductCarrousel(props) {
 
             <Carousel
               showIndicators={false}
-              numVisible={width > 600 ? 4 : 2}
+              numVisible={width > 600 ? width > 2000 ? 6 : 4 : 2}
               numScroll={1}
               value={randomProducts}
               circular

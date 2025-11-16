@@ -14,7 +14,7 @@ import { Column } from "primereact/column";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { InputSwitch } from 'primereact/inputswitch';
-import { Tooltip } from 'primereact/tooltip';
+
 
 
 
@@ -29,11 +29,13 @@ export default function Dashboard() {
   const [edit, setEdit] = useState(false);
 
   // Data retrievel hook
-  const { products, setProducts, collection } = useProducts();
+  const { products, setProducts, collection, setCollection } = useProducts();
 
   // Data hooks
   const [listCol, setListCol] = useState([]);
   const [listType, setListType] = useState([]);
+  const [allCollection, setAllCollection] = useState([])
+  const [currentCollection, setCurrentCollection] = useState(collection)
 
   //Dialog hooks
   const [productDialog, setProductDialog] = useState(false);
@@ -104,6 +106,8 @@ export default function Dashboard() {
         {}
       ).then((Response) => Response.json());
 
+      setAllCollection(collection.data)
+
       collection.data.map((e) => {
         temp.push({ name: e.collection_name, code: e.collection_id });
       });
@@ -135,7 +139,7 @@ export default function Dashboard() {
   }, []);
 
 
-
+  
 
 
   // Form
@@ -157,7 +161,7 @@ export default function Dashboard() {
             body: formData,
           }
         ).then((Response) => Response.json());
-
+        console.log(response)
 
         if (response.status) {
           currentProduct.product_id = "Atualizar para ver Id";
@@ -215,6 +219,44 @@ export default function Dashboard() {
     }
   };
 
+  const activateCollection = async (collection) => {
+  try {
+
+   
+    const formData = new FormData();
+    formData.append("collection_id", collection);
+
+    const result = await fetch(`${API_URL}/server/?action=activateCollection`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    }).then((res) => res.json());
+
+    if(result.status){
+       setAllCollection(prev =>
+      prev.map(e => ({
+        ...e,
+        active: e.collection_id === collection ? '1' : '0'
+      }))
+    );
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+const deleteCollection = async (collection) => {
+  try {
+
+  }
+  catch(es)
+  {
+    console.log(es)
+  }
+}
+
 
 
   // React templates
@@ -240,7 +282,15 @@ export default function Dashboard() {
   const productState = (rowData) => {
       return (
         <>
-          { rowData.state === 'AVAILABLE' ? <i className="pi pi-circle-fill" tooltip={"Disponivel"} style={{color : 'green'}}/> : <i className="pi pi-circle-fill" style={{color : 'red'}}/>}
+          { rowData.state === 'AVAILABLE' ? <i className="pi pi-circle-fill" style={{color : 'green'}}/> : <i className="pi pi-circle-fill" style={{color : 'red'}}/>}
+        </>
+      )
+  }
+
+  const activeCollection = (rowData) => {
+    return (
+        <>
+          <InputSwitch onChange={() => activateCollection(rowData.collection_id)} checked={rowData.active === '1' ? true : false} />
         </>
       )
   }
@@ -278,9 +328,15 @@ export default function Dashboard() {
             Adicionar produto
           </button>
         </Card>
-        <Card className="dashboard-card" title="Coleção ativa">
+        <Card onClick={() => setCollectionDialog(true)} className="dashboard-card" title="Coleção ativa">
           <p>
-            A coleção ativa é <strong>{collection}</strong>
+            A coleção ativa é <strong>{currentCollection}</strong>
+            <button
+            onClick={() => setCollectionDialog(true)}
+            style={{ fontSize: "20px", margin: "0" }}
+          >
+            Coleções
+          </button>
           </p>
         </Card>
         <Card className="dashboard-card" title="Total de reservas">
@@ -314,12 +370,6 @@ export default function Dashboard() {
           <Column header="Opções" body={options}></Column>
         </DataTable>
       </div>
-
-      <i
-        style={{ paddingLeft: "50x", cursor: "pointer" }}
-        onClick={() => setProductDialog(true)}
-        className="pi pi-plus"
-      />
 
       <Dialog
         showHeader={false}
@@ -472,9 +522,38 @@ export default function Dashboard() {
           </div>
         </div>
       </Dialog>
+
+
+      <Dialog 
+        showHeader={false}
+        visible={collectionDialog}
+        modal
+        style={{
+          width: "50vw",
+          paddingTop: "50px",
+          backgroundColor: "white",
+
+        }}
+        onHide={() => {
+          if (!collectionDialog) return;
+          setCollectionDialog(false);
+        }}
+        >
+          <h1 style={{textAlign : 'center'}}>Coleções</h1>
+          <DataTable value={allCollection}>
+            <Column header="Nome" field="collection_name" ></Column>
+            <Column header="Ano" field="year"></Column>
+            <Column header="Estado" body={activeCollection} field="active"></Column>
+          </DataTable>
+      </Dialog>
     </>
   );
 }
+
+
+
+
+
 
 class Product {
   constructor() {

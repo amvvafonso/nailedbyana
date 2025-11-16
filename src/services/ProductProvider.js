@@ -32,7 +32,7 @@ export function ProductsProvider({ children }) {
   }, []);
 
   return (
-    <ProductsContext.Provider value={{ products, setProducts, collection, types, loading }}>
+    <ProductsContext.Provider value={{ products, setProducts, collection, setCollection ,types, loading }}>
       {children}
     </ProductsContext.Provider>
   );

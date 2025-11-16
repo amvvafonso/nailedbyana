@@ -10,7 +10,7 @@ export default function Contact(){
                 <div className="content">
                     <h1 className="contact-title">CONTACTO</h1>
                     <div className="contact-content">
-                        <h2 className="contact-subtitle">NAILED BY ANA</h2>
+                        <h2 className="contact-subtitle">NAILED BY ANA.</h2>
                         <p className="contact-description">Precisas de ajuda ou queres saber mais sobre as nossas joias? Fala connosco — teremos todo o gosto em responder. </p>
                     </div>
                     <div className="contact-content">

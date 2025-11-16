@@ -57,38 +57,38 @@ export default function NavBarComponent(){
                         <Link className="nav-link" to={"/"} style={{textDecoration : 'none'}}>Inicio</Link>
                         {collection ? <><Link className="nav-link" to={"collection"} style={{textDecoration : 'none'}}>{collection}</Link></> : ''}
                         <Dropdown label="Artigos">
-                            <Link to={"bracelets"}>Pulseiras</Link>
                             <Link to={"rings"}>Aneis</Link>
                             <Link to={"earings"}>Brincos</Link>
                             <Link to={"necklace"}>Colares</Link>
                             <Link to={"set"}>Conjuntos</Link>
+                            <Link to={"bracelets"}>Pulseiras</Link>
                         </Dropdown>
                         <Link className="nav-link" to={"about"} style={{textDecoration : 'none'}}>Sobre nós</Link>
                         <Link className="nav-link" to={'contact'} style={{textDecoration : 'none'}}>Contacto</Link>
-                        {!logged ? <><Link className="nav-link" to={"login"} style={{textDecoration : 'none', marginLeft : '50px'}}>Login</Link>
-                            {/*<Link className="nav-link" to={'register'} style={{textDecoration : 'none'}}>Registar</Link>}*/}</> : ''}
+                        {/*!logged ? <><Link className="nav-link" to={"login"} style={{textDecoration : 'none', marginLeft : '50px'}}>Login</Link>
+                            {<Link className="nav-link" to={'register'} style={{textDecoration : 'none'}}>Registar</Link>}}</> : ''*/}
                     </div>
                     {logged ? <UserAvatar permission={user.permission} user={user} image={"./assets/user-default.png"}/> : ''}
                 </div>
                 <div id="navBarScroll" className="nav-bar-div nav-bar-hidden">
                         <div className="nav-bar-inner-div">
-                        <div className="by-ana-div">
+                        <div onClick={() => navigate("/")} className="by-ana-div">
                             <h1 className="by-ana">BY ANA.</h1>
                         </div>
                         <div className="link-div">
                             <Link className="nav-link" to={"/"} style={{textDecoration : 'none'}}>Inicio</Link>
                             {collection ? <><Link className="nav-link" to={"collection"} style={{textDecoration : 'none'}}>{collection}</Link></> : ''}
                             <Dropdown label="Loja Online">
-                                <Link to={"bracelets"}>Pulseiras</Link>
                                 <Link to={"rings"}>Aneis</Link>
                                 <Link to={"earings"}>Brincos</Link>
                                 <Link to={"necklace"}>Colares</Link>
                                 <Link to={"set"}>Conjuntos</Link>
+                                <Link to={"bracelets"}>Pulseiras</Link>
                             </Dropdown>
                             <Link className="nav-link" to={"about"} style={{textDecoration : 'none'}}>Sobre nós</Link>
                             <Link className="nav-link" to={'contact'}  style={{textDecoration : 'none'}}>Contacto</Link>
-                            {!logged ? <><Link className="nav-link" to={"login"} style={{textDecoration : 'none', marginLeft : '50px'}}>Login</Link>
-                            {/*<Link className="nav-link" to={'register'} style={{textDecoration : 'none'}}>Registar</Link>}*/}</> : ''}
+                            {/*!logged ? <><Link className="nav-link" to={"login"} style={{textDecoration : 'none', marginLeft : '50px'}}>Login</Link>
+                            {<Link className="nav-link" to={'register'} style={{textDecoration : 'none'}}>Registar</Link>}}</> : ''*/}
                     </div>
                     {logged ? <UserAvatar user={user} image={"./assets/user-default.png"}/> : ''}
                     </div>
@@ -100,17 +100,24 @@ export default function NavBarComponent(){
                     <div className="nav-bar-inner-content-div">
                         <Link onClick={() => setToggle(false)} to={"/"} className="nav-link">Inicio</Link>
                         <Link onClick={() => setToggle(false)} to={"collection"} className="nav-link">{collection}</Link>
+                        <Dropdown label={"Artigos"}>
+                                <Link onClick={() => setToggle(false)} to={"rings"}>Aneis</Link>
+                                <Link onClick={() => setToggle(false)} to={"earings"}>Brincos</Link>
+                                <Link onClick={() => setToggle(false)} to={"necklace"}>Colares</Link>
+                                <Link onClick={() => setToggle(false)} to={"set"}>Conjuntos</Link>
+                                <Link onClick={() => setToggle(false)} to={"bracelets"}>Pulseiras</Link>
+                        </Dropdown>
                         <Link onClick={() => setToggle(false)} to={"about"} className="nav-link">Sobre nós</Link>
                         <Link onClick={() => setToggle(false)} to={"contact"} className="nav-link">Contacto</Link>
         
                         
-                        {!logged ? <><Link onClick={() => setToggle(false)} to={"login"} className="nav-link">Login</Link></> : <><Link onClick={() => setToggle(false)} className="nav-link" to={"/"}>Perfil</Link> <Logout onClick={() => setToggle(false)}/></>}
+                        {/*!logged ? <><Link onClick={() => setToggle(false)} to={"login"} className="nav-link">Login</Link></> : <><Link onClick={() => setToggle(false)} className="nav-link" to={"/"}>Perfil</Link> <Logout onClick={() => setToggle(false)}/></>*/}
                     </div>
                 </div>
     
                 <div id="navBarMobile" className="nav-bar-mobile-div">
                     <div className="nav-bar-inner-mobile-div">
-                        <div className="by-ana-div">
+                        <div onClick={() => navigate("/")} className="by-ana-div">
                             <h1 className="by-ana">BY ANA.</h1>
                         </div>
                         <div className="toggle-button-div">
