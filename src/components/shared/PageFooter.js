@@ -9,9 +9,7 @@ export default function PageFooter(){
                     <div>
                         <h2 className="footer-title">BY ANA.</h2>
                     </div>
-                    <div>
-                        <h2 className="footer-title">INFORMAÇÃO</h2>
-                    </div>
+
                     <div>
                         <h2 className="footer-title">LOJA</h2>
                         <div style={{display : 'grid'}}>

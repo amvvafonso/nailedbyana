@@ -10,6 +10,8 @@ export default function ProductPageTemplate({ title, products, types, loading, f
 
   useEffect(() => {
     setFiltered(products);
+    types.sort((a, b) => a.type.localeCompare(b.type))
+    console.log(types)
   }, [products]);
 
   const filter = (typeId) => {
@@ -20,6 +22,7 @@ export default function ProductPageTemplate({ title, products, types, loading, f
         typeId === 0
           ? products
           : products.filter((p) => p.type === typeId);
+
 
       setFiltered(filteredProducts);
       setFilterLoading(false);
@@ -39,7 +42,7 @@ export default function ProductPageTemplate({ title, products, types, loading, f
         {title}
       </h1>
 
-     {filters ? <> <div style={{ textAlign: "center" }}>
+     {filters ? <> <div className="filter-button-div">
         <button  className="filter-button" onClick={() => filter(0)}>
           Todos
         </button>
@@ -61,14 +64,7 @@ export default function ProductPageTemplate({ title, products, types, loading, f
 
          
       <div
-        style={{
-          width: "90%",
-          maxWidth: "1200px",
-          margin: "auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-          justifyItems: "center",
-        }}
+      className="content-div-product"
       >
         {filtered.map((item) => (
           <ProductTemplate product={item} />

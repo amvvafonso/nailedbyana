@@ -73,6 +73,13 @@
         display: none;
     }
 
+    .drpbtn {
+
+            font-family: 'Open Sans';
+            font-size: 15px;
+            color: var(--primary);
+    }
+
     .visi {
         display: contents;
     }
@@ -170,9 +177,32 @@
 
 
 
+/* ------------------ NavBar Tablet ------------------ */
 
-
-
+@media (max-width: 1310px) {
+    .nav-bar-inner-div {
+        width: 100%;
+    }
+    .by-ana-div {
+        width: 35%;
+        text-align: center;
+    }
+    .link-div {
+        width: 70%;
+        display: flex;
+        text-align: center;
+        justify-content: space-evenly;
+        margin-right: 0;
+        align-items: center;
+    }
+    .nav-link {
+        margin-right: 10px;
+        
+    }
+    .dropbtn {
+        margin-right: 0 !important;
+    }
+}
 
 
 .animationCenterLeft {

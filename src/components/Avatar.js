@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 export default function UserAvatar({user, image}){
     return (
         <>
-        <div style={{width : '1%', textAlign : 'center', height : '100%'}}>
+        <div className='avatar-div'>
             <div className='dropdown-avatar'>
                 <Avatar className='' image={image} style={{margin : 'auto'}} size="xlarge" shape="circle" />
                 <div className="dropdown-avatar-content">

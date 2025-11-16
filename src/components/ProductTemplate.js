@@ -41,16 +41,23 @@ export default function ProductTemplate({ product }) {
             <p style={{fontSize : '15px', color : product.state==='AVAILABLE' ? 'green' : 'red'}}>{product.state}</p>
 
             <p style={{fontSize : '16px'}}>
-              De momento, não é possível reservar online!
-              <br />
-              Caso deseja reservar envie mensagem privada para{" "}
+              As compras no nosso site estão temporariamente indisponíveis.
+              Pode visitar a loja física ou contactar-nos através das redes sociais
+              <br/>
               <a
                 style={{ textDecoration: "none", color: "#666", fontWeight: "bold" }}
                 rel="noreferrer"
                 target="_blank"
                 href="https://ig.me/m/naiiledbyana?text=Hello"
               >
-                @naiiledbyana
+                 @naiiledbyana
+              </a> ou <a
+                style={{ textDecoration: "none", color: "#666", fontWeight: "bold" }}
+                rel="noreferrer"
+                target="_blank"
+                href="https://www.facebook.com/p/Nailed-By-Ana-61571734991010/"
+              >
+                 Nailed by Ana
               </a>.
             </p>
 
