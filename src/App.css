@@ -29,6 +29,41 @@ p {
 
 }
 
+button {
+    font-size: 20px;
+    margin: 0;
+}
 
 
+/* MOBILE */
+@media screen and (max-width: 600px) {
+    .p-toast {
+        width: 95vw;
+        left: 50% !important;
+        transform: translateX(-50%);
+    }
+
+    .p-toast-message {
+
+    }
+
+    .p-toast-message-content {
+        align-items: flex-start;
+    }
+
+    .p-toast-summary {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .p-toast-detail {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .p-toast-icon-close {
+        width: 2rem;
+        height: 2rem;
+    }
+}
 

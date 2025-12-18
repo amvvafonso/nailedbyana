@@ -7,7 +7,7 @@ export default function Earings(){
 
     const { products, types, loading } = useProducts();
     
-    const earings = products.filter((p) => p.type === 'Brincos');
+    const earings = products.filter((p) => p.type == 2);
     
     useEffect((e) => {
 

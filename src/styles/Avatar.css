@@ -1,0 +1,59 @@
+/* ------------------ Avatar ------------------ */
+.dropdown-avatar {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    align-content: center;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-avatar-content {
+    margin-top: -10px;
+    z-index: 1;
+    display: none;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    text-align: left;
+    background-color: white;
+    padding-bottom: 20px;
+}
+
+.dropdown-text {
+    margin-right: 50px;
+    font-family: 'Open Sans';
+    font-size: 15px;
+    color: var(--primary);
+}
+
+/* Links inside the dropdown */
+.dropdown-avatar a {
+    text-align: left;
+    min-width: 200px;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: white;
+    color: var(--primary);
+
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-avatar a:hover {
+    color: black;
+
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-avatar:hover .dropdown-avatar-content {
+    display: block;
+    animation: dropdown 0.5s;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown-avatar:hover .dropbtn {
+    color: black;
+    cursor: pointer;
+
+}

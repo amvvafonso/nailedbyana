@@ -5,13 +5,12 @@ import { useState, useEffect } from "react";
 export default function ProductPageTemplate({ title, products, types, loading, filters }) {
 
   const [filtered, setFiltered] = useState([]);
-
+  const [grid, setGrid] = useState()
   const [filterLoading, setFilterLoading] = useState(false)
 
   useEffect(() => {
     setFiltered(products);
     types.sort((a, b) => a.type.localeCompare(b.type))
-    console.log(types)
   }, [products]);
 
   const filter = (typeId) => {
@@ -24,8 +23,11 @@ export default function ProductPageTemplate({ title, products, types, loading, f
           : products.filter((p) => p.type === typeId);
 
 
+
       setFiltered(filteredProducts);
-      setFilterLoading(false);
+      setTimeout(() => {
+        setFilterLoading(false);
+      }, 300);
     }
     catch(es){
       console.log(es)
@@ -33,16 +35,16 @@ export default function ProductPageTemplate({ title, products, types, loading, f
 
   };
 
-  if(loading) return <FullscreenLoading/>
-  if(filterLoading) return <FullscreenLoading/>
+
 
   return (
     <>
       <h1 style={{ fontSize: "50px", textAlign: "center", fontWeight: "lighter", marginBottom : '50px' }}>
         {title}
       </h1>
-
-     {filters ? <> <div className="filter-button-div">
+    <div className="filter-button-div">
+      
+     {filters ? <> 
         <button  className="filter-button" onClick={() => filter(0)}>
           Todos
         </button>
@@ -51,7 +53,7 @@ export default function ProductPageTemplate({ title, products, types, loading, f
             key={t.type_id}
             className="filter-button"
             onClick={() => {
-              filter(t.type)
+              filter(t.type_id)
 
              }}
           >
@@ -60,11 +62,12 @@ export default function ProductPageTemplate({ title, products, types, loading, f
           
         ))}
         
-      </div></> : '' }
+      </> : '' }
+      <button onClick={() => setGrid(!grid)} style={window.screen.width > 600 ? {display : 'none'} : {}}  className="apresentation-button">{!grid ? <><span className="pi pi-th-large"></span></> : <><span className="pi pi-align-justify"></span></>}</button>
+      </div>  
 
-         
       <div
-      className="content-div-product"
+      className={grid ? "content-div-product-grid" : "content-div-product"}
       >
         {filtered.map((item) => (
           <ProductTemplate product={item} />

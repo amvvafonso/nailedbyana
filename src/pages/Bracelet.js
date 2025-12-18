@@ -7,7 +7,7 @@ export default function Bracelet(){
 
     const { products, types, loading } = useProducts();
     
-    const bracelets = products.filter((e) => e.type === 'Pulseira');
+    const bracelets = products.filter((e) => e.type == 4);
     
     useEffect((e) => {
       console.log(bracelets)

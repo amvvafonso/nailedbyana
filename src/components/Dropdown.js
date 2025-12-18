@@ -1,4 +1,4 @@
-import './Components.css';
+import '../styles/Dropdown.css';
 export default function Dropdown({ label, children, toggle }) {
   return (
     <div className='dropdown'>

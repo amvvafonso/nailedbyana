@@ -1,0 +1,55 @@
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 80%;
+    gap: 10px;
+    margin: auto;
+}
+
+
+.cart-information {
+    width: 80%;
+    margin: auto;
+    text-align: justify;
+    max-height: 40vh;
+    height: 40vh;
+}
+
+.cart-product-div {
+    max-height: 40vh;
+    height: 40vh;
+    overflow-y: auto;
+}
+
+.reserve-button {
+    font-family: 'Open Sans';
+        font-size: 16px;
+        height: 60px;
+        font-weight: lighter;
+        width: 200px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+}
+.reserve-button:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+
+@media (max-width: 600px) {
+    .content-grid {
+        grid-template-columns: repeat(1, 1fr);
+        width: 90%;
+    }
+    .amount {
+        font-size: 20px;
+    }
+    .reserve-button {
+        width: 100px;
+        font-size: 14px;
+    }
+
+
+}

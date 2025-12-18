@@ -32,7 +32,18 @@
     transform: translateY(5px);
     transition: 100ms;
 }
-
+.apresentation-button {
+    padding: 11px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 0;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    color: var(--primary);
+}
 .filter-button-div {
     text-align: center;
     width: 100%;
@@ -40,6 +51,17 @@
     align-content: center;
     overflow: auto;
     justify-content: center;
+    padding-bottom: 25px;
+}
+
+.apresentation-div {
+    text-align: right;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    overflow: auto;
+    justify-content: center;
+    padding-bottom: 25px;
 }
 
 .content-div-product {
@@ -49,6 +71,15 @@
     display : grid;
     justify-items: center;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.content-div-product-grid {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
 /* ------------------ Contact ------------------ */
@@ -102,6 +133,14 @@
     }
     .iframe{
         width: fit-content;
+    }
+
+    .filter-button:hover {
+        box-shadow: unset;
+    }
+
+    .filter-button:active {
+
     }
 }
 

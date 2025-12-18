@@ -1,7 +1,8 @@
 import "./NavBar.css"
 import { useEffect } from "react";
 import 'primeicons/primeicons.css';
-import NavBarComponent from "./NavBarComponent";
+import NavBarDesktop from "./NavBarDesktop";
+import NavBarMobile from "./NavBarMobile";
 
 
 function scrollFunction() {
@@ -33,7 +34,12 @@ function NavBar(){
 
     return (
         <>
-            <NavBarComponent/>
+        <div className="hide">
+            <NavBarDesktop/>
+        </div>
+             <div className="visi">
+                <NavBarMobile/>           
+            </div>
         </>
     )
 }

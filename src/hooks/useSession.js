@@ -1,35 +1,34 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../config";
 import { useLocation } from "react-router-dom";
 
-export default function useSession() {
 
+
+export default function useSession() {
   const [user, setUser] = useState(null);
-  const [logged, setLogged] = useState()
-  const [loading, setLoading] = useState(true)
+  const [logged, setLogged] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-
     async function checkSession() {
       try {
-
         const res = await fetch(`${API_URL}/server/?action=checkAuth`, {
           credentials: "include",
+          method : 'POST'
         });
 
         const auth = await res.json();
+        setLoading(false);
 
-        setTimeout(() => {
-          setLoading(false)
-        }, 500);
-
-        if (auth.logged) {
-          setUser(JSON.parse(auth.userLogged));
-        } 
-        else {
+        if (auth.success) {
+          setUser(auth.userLogged);
+          setLogged(true);
+        } else {
           setUser(null);
+          setLogged(false);
+
           if (window.location.pathname !== "/login") {
             navigate("/login");
           }
@@ -37,57 +36,65 @@ export default function useSession() {
       } catch (error) {
         console.error("Session validation error:", error);
         navigate("/");
-      } finally {
       }
     }
 
     checkSession();
+
+   
+
   }, [navigate]);
 
-
-  return { user, logged ,loading }
+  return { user, logged, loading };
 }
 
 
-export function ValidadeSession(){
+export function ValidadeSession() {
     const [user, setUser] = useState(null);
-    const [logged, setLogged] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [logged, setLogged] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [showWarning, setShowWarning] = useState(false);
+
+    const previouslyLogged = useRef(false);
     const location = useLocation();
 
-
-
     useEffect(() => {
-      async function checkSession() {
-        try {
-          const res = await fetch(`${API_URL}/server/?action=checkAuth`, {
-            credentials: "include",
-          });
-          const auth = await res.json();
+        async function checkSession() {
+            try {
 
-          setTimeout(() => {
-            setLoading(false)
-          }, 500);
-          if(!auth){
-            return
-          }
+                const res = await fetch(`${API_URL}/server/?action=checkAuth`, {
+                    credentials: "include",
+                    method : 'POST'
+                });
+                const auth = await res.json();
 
-          if (auth.logged) {
-            setUser(JSON.parse(auth.userLogged));
-            setLogged(true)
-          } else {
-            setUser(null);
-            setLogged(false)
-          }
-        } catch (error) {
-          console.error("Session validation error:", error);
-        } finally {
+                setTimeout(() => setLoading(false), 300);
+
+                if (auth.success) {
+                    setUser(auth.userLogged);
+                    setLogged(true);
+                    setShowWarning(false);
+                    previouslyLogged.current = true;
+                } else {
+                    setUser(null);
+
+                    if (previouslyLogged.current === true) {
+                        setShowWarning(true);
+                        previouslyLogged.current = false;
+                    }
+
+                    setLogged(false);
+                }
+            } catch (err) {
+                console.error("Session check failed", err);
+            }
         }
-      }
 
-      checkSession();
+        checkSession();
+
+        const interval = setInterval(checkSession, 660000); // 10 minutes
+        return () => clearInterval(interval);
     }, [location]);
 
-
-    return { user ,logged, loading}
+    return { user, logged, loading, showWarning, setShowWarning };
 }

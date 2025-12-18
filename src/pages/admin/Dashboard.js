@@ -4,7 +4,6 @@ import useSession from "../../hooks/useSession";
 import API_URL from "../../config";
 import { useEffect, useState, useRef } from "react";
 import { Dialog } from "primereact/dialog";
-import { Dropdown } from "primereact/dropdown";
 import "./Admin.css";
 import { Divider } from "primereact/divider";
 import { Card } from "primereact/card";
@@ -13,547 +12,355 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import { InputSwitch } from 'primereact/inputswitch';
-
-
-
+import { InputSwitch } from "primereact/inputswitch";
+import ProductTable from "./ProductTable";
+import ReservationTable from "./ReservationTable";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const toast = useRef(null);
 
-  //session hook
-  const { user, loading } = useSession();
+  // Session
+  const { user, logged, loading } = useSession();
 
-  //state var
-  const [edit, setEdit] = useState(false);
+  // Product provider
+  const { products, collection } = useProducts();
 
-  // Data retrievel hook
-  const { products, setProducts, collection, setCollection } = useProducts();
+  // Data lists
+  const [collectionOptions, setCollectionOptions] = useState([]);
+  const [allCollections, setAllCollections] = useState([]);
+  const [activeCollectionName, setActiveCollectionName] = useState();
 
-  // Data hooks
-  const [listCol, setListCol] = useState([]);
-  const [listType, setListType] = useState([]);
-  const [allCollection, setAllCollection] = useState([])
-  const [currentCollection, setCurrentCollection] = useState(collection)
+  // Creation form
+  const [newCollectionName, setNewCollectionName] = useState("");
+  const [newCollectionYear, setNewCollectionYear] = useState(
+    new Date().getFullYear()
+  );
 
-  //Dialog hooks
-  const [productDialog, setProductDialog] = useState(false);
-  const [collectionDialog, setCollectionDialog] = useState(false);
+  // Dialogs
+  const [isCollectionDialogOpen, setIsCollectionDialogOpen] = useState(false);
 
-  const [currentProduct, setcurrentProduct] = useState(new Product());
+  // ------------------------------------------------------------
+  // Toast helpers
+  // ------------------------------------------------------------
 
-  //Dropdowns - products
-  const [selectedCollection, setSelectedCollection] = useState();
-  const [type, setType] = useState();
+  const deleteCollectionConfirmed = async (collection) => {
+    const success = await deleteCollectionRequest(collection);
 
-  
-
-  // state function
-
-  const handleEdit = (product) => {
-    setcurrentProduct(product);
-    setEdit(true);
-    setProductDialog(true);
+    toast.current.show({
+      severity: success ? "success" : "error",
+      summary: success ? "Confirmação" : "Erro",
+      detail: success
+        ? `Eliminado com sucesso a coleção ${collection.collection_name}!`
+        : "Ocorreu um problema na eliminação da coleção!",
+      life: 3000,
+    });
   };
 
-  const accept = async (product) => {
-    const result = await handleDelete(product);
-    if (result) {
-      toast.current.show({
-        severity: "info",
-        summary: "Confirmação",
-        detail: `Eliminado com sucesso o produto ${product.name}!`,
-        life: 3000,
-      });
-    } else {
-      toast.current.show({
-        severity: "error",
-        summary: "Erro",
-        detail: `Ocorreu um problema na eliminação do produto! `,
-        life: 3000,
-      });
-    }
-  };
-
-  const reject = () => {};
-
-  const confirmDeletion = (product) => {
+  const confirmDeleteCollection = (collection) => {
     confirmDialog({
       message: "Tem a certeza que deseja eliminar?",
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
       defaultFocus: "accept",
-      accept: () => accept(product),
-      reject,
+      accept: () => deleteCollectionConfirmed(collection),
+      reject: () => {},
     });
   };
 
-  const createProduct = () => {
-    setEdit(false);
-    setcurrentProduct(new Product());
-    setProductDialog(true);
-  };
+  // ------------------------------------------------------------
+  // Fetch Collections
+  // ------------------------------------------------------------
 
-
-  // Fetch form data
-
-  const getCollections = async (e) => {
+  const fetchCollections = async () => {
     try {
-      let temp = [];
-      const collection = await fetch(
-        `${API_URL}/server/?action=getCollections`,
-        {}
-      ).then((Response) => Response.json());
-
-      setAllCollection(collection.data)
-
-      collection.data.map((e) => {
-        temp.push({ name: e.collection_name, code: e.collection_id });
-      });
-      setListCol(temp)
-    } catch (Exception) {
-      console.log(Exception);
-    }
-  };
-
-  const getTypes = async (e) => {
-    try {
-      let temp = [];
-      const types = await fetch(`${API_URL}/server/?action=getTypes`, {}).then(
-        (Response) => Response.json()
+      const result = await fetch(`${API_URL}/server/?action=getCollections`).then(
+        (res) => res.json()
       );
 
-      types.data.map((e) => {
-        temp.push({ name: e.type, code: e.type_id });
-      });
-      setListType(temp)
-    } catch (Exception) {
-      console.log(Exception);
+      setAllCollections(result.data);
+
+      // Build dropdown options
+      const formatted = result.data.map((c) => ({
+        name: c.collection_name,
+        code: c.collection_id,
+      }));
+
+      setCollectionOptions(formatted);
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  useEffect((e) => {
-    getCollections();
-    getTypes();
-  }, []);
+  // Initial load
+  useEffect(() => {
+    fetchCollections();
+    setActiveCollectionName(collection);
+  }, [collection]);
 
+  // ------------------------------------------------------------
+  // Collection Actions
+  // ------------------------------------------------------------
 
-  
-
-
-  // Form
-
-  const handleSubmit = async (e) => {
+  const activateCollectionById = async (collectionId) => {
     try {
-      e.preventDefault();
-      if (!edit) {
-        const form = document.getElementById("fileUpload");
-        const formData = new FormData(form); // Pega TODOS os campos do form automaticamente
-        formData.append("collection", selectedCollection.name);
-        formData.append("collection_id", selectedCollection.code);
-        formData.append("type", type.code);
+      const form = document.getElementById("collectionForm");
+      const formData = new FormData(form);
+      formData.append("collection_id", collectionId);
 
-        const response = await fetch(
-          `${API_URL}/server/?action=createProduct`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        ).then((Response) => Response.json());
-        console.log(response)
-
-        if (response.status) {
-          currentProduct.product_id = "Atualizar para ver Id";
-          products.push(currentProduct);
-        }
-        setProductDialog(false);
-      } else {
-        const form = document.getElementById("fileUpload");
-        const formData = new FormData(form); // Pega TODOS os campos do form automaticamente
-        formData.append("collection", selectedCollection.name);
-        formData.append("collection_id", selectedCollection.code);
-        formData.append("type", type.code);
-        formData.append("product_id", currentProduct.product_id);
-        formData.append("oldImage", currentProduct.image);
-
-        const response = await fetch(`${API_URL}/server/?action=editProduct`, {
+      const result = await fetch(
+        `${API_URL}/server/?action=activateCollection`,
+        {
           method: "POST",
           body: formData,
-        }).then((Response) => Response.json());
-
-        console.log("Server response:", response);
-
-        if (response.status) {
-          for (let i = 0; i < products.length; i++) {
-            if (products[i].product_id === currentProduct.product_id) {
-              products[i] = currentProduct;
-              break;
-            }
-          }
+          credentials: "include",
         }
+      ).then((r) => r.json());
 
-        setProductDialog(false);
+      if (result.status) {
+        // Update UI
+        setAllCollections((prev) =>
+          prev.map((c) => ({
+            ...c,
+            active: c.collection_id === collectionId ? "1" : "0",
+          }))
+        );
+
+        const activeCol = allCollections.find(
+          (c) => c.collection_id === collectionId
+        );
+
+        if (activeCol) setActiveCollectionName(activeCol.collection_name);
       }
-    } catch (Es) {
-      console.log("erro", Es);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const handleDelete = async (product1) => {
-    const formData = new FormData();
-    formData.append("product_id", product1.product_id);
-    const result = await fetch(`${API_URL}/server/?action=deleteProduct`, {
-      method: "POST",
-      body: formData,
-    }).then((Response) => Response.json());
+  const submitNewCollection = async (e) => {
+    e.preventDefault();
 
-    if (result.status) {
-      const newProducts = products.filter(
-        (p) => p.product_id !== product1.product_id
-      );
-      setProducts(newProducts);
-      return true;
-    } else {
-      return false;
+    try {
+      const formData = new FormData();
+      formData.append("year", newCollectionYear);
+      formData.append("collection_name", newCollectionName);
+
+      const result = await fetch(
+        `${API_URL}/server/?action=createCollection`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      ).then((r) => r.json());
+
+      if (result.status) {
+        toast.current.show({
+          severity: "success",
+          summary: "Confirmação",
+          detail: "Coleção criada com sucesso!",
+          life: 4000,
+        });
+
+        fetchCollections();
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const activateCollection = async (collection) => {
-  try {
+  const deleteCollectionRequest = async (collection) => {
+    try {
+      const formData = new FormData();
+      formData.append("collection_id", collection.collection_id);
 
-   
-    const formData = new FormData();
-    formData.append("collection_id", collection);
+      const result = await fetch(
+        `${API_URL}/server/?action=deleteCollection`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      ).then((res) => res.json());
 
-    const result = await fetch(`${API_URL}/server/?action=activateCollection`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    }).then((res) => res.json());
-
-    if(result.status){
-       setAllCollection(prev =>
-      prev.map(e => ({
-        ...e,
-        active: e.collection_id === collection ? '1' : '0'
-      }))
-    );
+      if (result.status) {
+        setAllCollections((prev) =>
+          prev.filter((c) => c.collection_id !== collection.collection_id)
+        );
+        return true;
+      }
+    } catch (err) {
+      console.log(err);
     }
 
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-
-const deleteCollection = async (collection) => {
-  try {
-
-  }
-  catch(es)
-  {
-    console.log(es)
-  }
-}
-
-
-
-  // React templates
-
-  const options = (rowData) => {
-    return (
-      <>
-        <div style={{ display: "flex" }}>
-          <i
-            className="pi pi-pencil datatable-option"
-            onClick={() => handleEdit(rowData)}
-          />
-          <i
-            style={{ color: "red" }}
-            className="pi pi-times datatable-option"
-            onClick={() => confirmDeletion(rowData)}
-          />
-        </div>
-      </>
-    );
+    return false;
   };
 
-  const productState = (rowData) => {
-      return (
-        <>
-          { rowData.state === 'AVAILABLE' ? <i className="pi pi-circle-fill" style={{color : 'green'}}/> : <i className="pi pi-circle-fill" style={{color : 'red'}}/>}
-        </>
-      )
-  }
+  // ------------------------------------------------------------
+  // Templates
+  // ------------------------------------------------------------
 
-  const activeCollection = (rowData) => {
-    return (
-        <>
-          <InputSwitch onChange={() => activateCollection(rowData.collection_id)} checked={rowData.active === '1' ? true : false} />
-        </>
-      )
-  }
+  const activeCollectionTemplate = (rowData) => (
+    <InputSwitch
+      onChange={() => activateCollectionById(rowData.collection_id)}
+      checked={rowData.active === "1"}
+    />
+  );
 
-  const preview = (e) => {
-    const uploaded = document.getElementById("productImage");
-    const images = document.getElementById("preview");
-    const [file] = uploaded.files;
-    if (file) {
-      images.src = URL.createObjectURL(file);
-    }
-  };
+  const collectionOptionsTemplate = (rowData) => (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <i
+        onClick={() => confirmDeleteCollection(rowData)}
+        style={{ color: "red" }}
+        className="pi pi-times datatable-option"
+      />
+    </div>
+  );
 
+  const collectionForm = (
+    <form
+      id="collectionForm"
+      onSubmit={submitNewCollection}
+      className="collection-addition-div"
+    >
+      <p style={{ fontSize: "25px" }}>Adicionar coleção</p>
+
+      <input
+        required
+        className="input-field"
+        placeholder="Nome"
+        value={newCollectionName}
+        onChange={(e) => setNewCollectionName(e.target.value)}
+      />
+
+      <input
+        required
+        className="input-field"
+        placeholder="Ano"
+        value={newCollectionYear}
+        onChange={(e) => setNewCollectionYear(e.target.value)}
+      />
+
+      <button className="form-button">
+        <i className="pi pi-plus" />
+      </button>
+    </form>
+  );
+
+  // ------------------------------------------------------------
+  // Page Guard
+  // ------------------------------------------------------------
+
+  if (window.screen.width < 600)
+    return <h1>Está página só funciona em desktop</h1>;
 
   if (loading) return <FullscreenLoading />;
-  if (user.permission !== "1") navigate("/");
+
+  if (!user || user.permission !== "1") navigate("/");
+
+  // ------------------------------------------------------------
+  // Render
+  // ------------------------------------------------------------
 
   return (
     <>
       <Toast ref={toast} />
       <ConfirmDialog />
+
       <h1 style={{ textAlign: "center" }}>Dashboard</h1>
       <Divider />
-      <br />
+
       <div className="data-div">
         <Card className="dashboard-card" title="Produtos ativos">
           <p>
             Existem <strong>{products.length}</strong> produtos ativos neste
             momento!
           </p>
-          <button
-            onClick={createProduct}
-            style={{ fontSize: "20px", margin: "0" }}
-          >
-            Adicionar produto
-          </button>
         </Card>
-        <Card onClick={() => setCollectionDialog(true)} className="dashboard-card" title="Coleção ativa">
+
+        <Card className="dashboard-card" title="Coleção ativa">
           <p>
-            A coleção ativa é <strong>{currentCollection}</strong>
-            <button
-            onClick={() => setCollectionDialog(true)}
-            style={{ fontSize: "20px", margin: "0" }}
-          >
-            Coleções
-          </button>
+            A coleção ativa é <strong>{activeCollectionName}</strong>
           </p>
-        </Card>
-        <Card className="dashboard-card" title="Total de reservas">
-          <p>Existem 40 reservas, das quais 10 estão pendentes!</p>
+          <button
+            className="form-button"
+            onClick={() => setIsCollectionDialogOpen(true)}
+            style={{ fontSize: "20px", margin: 0 }}
+          >
+            Gerir coleções
+          </button>
         </Card>
       </div>
+
+      <Divider />
+      <ProductTable />
 
       <Divider />
 
       <div
         style={{
-          maxHeigh: "500px",
+          maxHeight: "1000px",
           overflow: "auto",
-          height: "500px",
+          height: "1000px",
           margin: "auto",
+          textAlign: "center",
+          width: "80%",
+          borderTop: "solid 1px rgba(80,80,80, 0.2)",
         }}
       >
-        <DataTable
-          paginator
-          rows={50}
-          rowsPerPageOptions={[5, 10, 25, 50]}
-          value={products}
-          tableStyle={{ minWidth: "50rem", width: "80%", margin: "auto" }}
-        >
-          <Column field="product_id" header="Id"></Column>
-          <Column field="name" header="Nome"></Column>
-          <Column field="type" header="Tipo"></Column>
-          <Column field="quantity" header="Quantidade"></Column>
-          <Column field="collection_name" header="Coleção"></Column>
-          <Column field="state" body={productState} header="Estado"></Column>
-          <Column header="Opções" body={options}></Column>
-        </DataTable>
+        <ReservationTable />
       </div>
 
+      {/* -------------------- Collection Dialog -------------------- */}
       <Dialog
         showHeader={false}
-        visible={productDialog}
-        modal
-        style={{
-          width: "90vw",
-          paddingTop: "50px",
-          backgroundColor: "white",
-          height: "80%",
-        }}
-        onHide={() => {
-          setcurrentProduct(new Product());
-          if (!productDialog) return;
-          setProductDialog(false);
-          setSelectedCollection()
-          setType()
-        }}
-      >
-        <h1 style={{ textAlign: "center", marginBottom: "25px" }}>
-          {edit ? "Editar produto" : "Adicionar produto"}
-        </h1>
-        <div className="dialog-div-admin">
-          <div className="product-input-div">
-            <form
-              id="fileUpload"
-              name="fileUpload"
-              onSubmit={handleSubmit}
-              encType="multipart/form-data"
-            >
-              <p>
-                Nome
-                <input
-                  value={currentProduct.name}
-                  required
-                  type="text"
-                  name="product"
-                  id="product"
-                  onChange={(e) =>
-                    setcurrentProduct({
-                      ...currentProduct,
-                      name: e.target.value,
-                    })
-                  }
-                />
-              </p>
-
-              <p>
-                Preço
-                <input
-                  value={currentProduct.price}
-                  required
-                  type="number"
-                  step={".01"}
-                  name="price"
-                  id="price"
-                  onChange={(e) =>
-                    setcurrentProduct({
-                      ...currentProduct,
-                      price: e.target.value,
-                    })
-                  }
-                />
-              </p>
-
-              <p>
-                Quantidade
-                <input
-                  value={currentProduct.quantity}
-                  required
-                  type="number"
-                  name="quantity"
-                  id="quantity"
-                  onChange={(e) =>
-                    setcurrentProduct({
-                      ...currentProduct,
-                      quantity: e.target.value,
-                    })
-                  }
-                />
-              </p>
-
-              <Dropdown
-                required
-                value={type}
-                options={listType}
-                placeholder="Tipo"
-                optionLabel="name"
-                onChange={(e) => {
-                  setType(e.value);
-                  setcurrentProduct({
-                    ...currentProduct,
-                    type: e.value.name,
-                  });
-                }}
-              />
-              <Dropdown
-                required
-                value={selectedCollection}
-                options={listCol}
-                placeholder="Coleção"
-                optionLabel="name"
-                onChange={(e) => {
-                  setSelectedCollection(e.value);
-                  setcurrentProduct({
-                    ...currentProduct,
-                    collection_name: e.value.name,
-                  });
-                }}
-              />
-              <input
-                required={edit ? false : true}
-                style={{ marginTop: "50px" }}
-                type="file"
-                name="productImage"
-                id="productImage"
-                onChange={preview}
-              />
-              <button
-                type="submit"
-                style={{
-                  position: "absolute",
-                  bottom: "0",
-                  right: "110px",
-                  cursor: "pointer",
-                }}
-              >
-                {edit ? "Editar" : "Adicionar"}
-              </button>
-            </form>
-            <button
-              onClick={() => setProductDialog(false)}
-              style={{
-                position: "absolute",
-                bottom: "0",
-                right: "10px",
-                cursor: "pointer",
-              }}
-            >
-              Fechar
-            </button>
-          </div>
-          <div className="image-div-admin">
-            <img
-              className="image-preview"
-              id="preview"
-              src={currentProduct.image || "#"}
-              alt="preview"
-            />
-          </div>
-        </div>
-      </Dialog>
-
-
-      <Dialog 
-        showHeader={false}
-        visible={collectionDialog}
+        visible={isCollectionDialogOpen}
         modal
         style={{
           width: "50vw",
           paddingTop: "50px",
           backgroundColor: "white",
+        }}
+        onHide={() => setIsCollectionDialogOpen(false)}
+      >
+        <h1 style={{ textAlign: "center" }}>Coleções</h1>
 
-        }}
-        onHide={() => {
-          if (!collectionDialog) return;
-          setCollectionDialog(false);
-        }}
+        <DataTable footer={collectionForm} value={allCollections}>
+          <Column field="collection_name" header="Nome" />
+          <Column field="year" header="Ano" />
+          <Column
+            field="active"
+            header="Estado"
+            body={activeCollectionTemplate}
+          />
+          <Column
+            header="Opções"
+            body={collectionOptionsTemplate}
+          />
+        </DataTable>
+
+        <button
+          onClick={() => setIsCollectionDialogOpen(false)}
+          style={{
+            position: "absolute",
+            top: "5px",
+            right: "10px",
+            border: 0,
+            backgroundColor: "transparent",
+            cursor: "pointer",
+            margin: 0,
+          }}
         >
-          <h1 style={{textAlign : 'center'}}>Coleções</h1>
-          <DataTable value={allCollection}>
-            <Column header="Nome" field="collection_name" ></Column>
-            <Column header="Ano" field="year"></Column>
-            <Column header="Estado" body={activeCollection} field="active"></Column>
-          </DataTable>
+          <i className="pi pi-times" />
+        </button>
       </Dialog>
     </>
   );
 }
 
-
-
-
-
+// ------------------------------------------------------------
+// Product Model — cleaned but logic unchanged
+// ------------------------------------------------------------
 
 class Product {
   constructor() {
@@ -571,21 +378,22 @@ class Product {
   }
 
   isEqual(other) {
-    if (this.product_id === other.product_id) return true;
-    return false;
+    return this.product_id === other.product_id;
   }
 
   existing(product) {
-    this.collection_id = product.collection_id || "";
-    this.collection_name = product.collection_name || "";
-    this.image = product.image || "";
-    this.name = product.name || "";
-    this.price = product.price || "";
-    this.product_id = product.product_id || "";
-    this.quantity = product.quantity || "";
-    this.season = product.season || "";
-    this.state = product.state || "";
-    this.type = product.type || "";
-    this.year = product.year || "";
+    Object.assign(this, {
+      collection_id: product.collection_id || "",
+      collection_name: product.collection_name || "",
+      image: product.image || "",
+      name: product.name || "",
+      price: product.price || "",
+      product_id: product.product_id || "",
+      quantity: product.quantity || "",
+      season: product.season || "",
+      state: product.state || "",
+      type: product.type || "",
+      year: product.year || "",
+    });
   }
 }
