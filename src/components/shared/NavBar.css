@@ -6,7 +6,7 @@
     height: 4.525rem;
     align-content: center;
     background-color: white;
-    z-index: 2;
+    z-index: 10;
 }
 
 .nav-bar-inner-div {
@@ -33,7 +33,6 @@
     width: 80%;
     align-content: center;
     text-align: right;
-    margin-right: 100px;
 }
 
 .nav-link {
@@ -71,6 +70,14 @@
 @media (max-width: 600px){
     .hide {
         display: none;
+    }
+
+    .carrinho {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        text-decoration: none;
+        font-size: 20px;
     }
 
     .drpbtn {

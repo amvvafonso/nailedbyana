@@ -7,7 +7,7 @@ export default function Set(){
 
     const { products, types, loading } = useProducts();
     
-    const set = products.filter((p) => p.type === 'Conjunto');
+    const set = products.filter((p) => p.type == 5);
     
     useEffect((e) => {
 

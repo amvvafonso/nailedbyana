@@ -7,7 +7,7 @@ export default function Necklace(){
 
     const { products, types, loading } = useProducts();
     
-    const necklace = products.filter((p) => p.type === 'Colar');
+    const necklace = products.filter((p) => p.type == 2);
     
     useEffect((e) => {
 

@@ -5,7 +5,7 @@ import { useProducts } from "../services/ProductProvider";
 export default function Rings(){
 
     const { products, loading } = useProducts();
-    const rings = products.filter((p) => p.type === 'Anel');
+    const rings = products.filter((p) => p.type == 1);
     
     if (loading) return <FullscreenLoading />;
 

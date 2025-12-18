@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
 import "./Footer.css"
 
+
 export default function PageFooter(){
     return (
         <>
-            <div className="main-footer-div">
+            <div id="footer" className="main-footer-div">
                 <div className="content-div">
                     <div>
                         <h2 className="footer-title">BY ANA.</h2>

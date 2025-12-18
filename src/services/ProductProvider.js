@@ -9,18 +9,19 @@ export function ProductsProvider({ children }) {
   const [collection, setCollection] = useState();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
+  async function fetchData() {
       try {
       const res = await fetch(`${API_URL}/server/?action=getProducts`, { 
-        method: "POST" }).then((Response ) => Response.json());
-  
+        method: "POST",
+       }).then((Response ) => Response.json());
+       console.log(res)
 
       setProducts(res.data);
       setCollection(res.activeCollection || null );
-
+      
       const typesRes = await fetch(`${API_URL}/server/?action=getTypes`, { method: "POST" });
       const typesData = await typesRes.json();
+
       setTypes(typesData.data);
       setLoading(false);
       }
@@ -28,11 +29,13 @@ export function ProductsProvider({ children }) {
         console.log(es)
       }
     }
+
+  useEffect(() => {
     fetchData();
   }, []);
-
+  
   return (
-    <ProductsContext.Provider value={{ products, setProducts, collection, setCollection ,types, loading }}>
+    <ProductsContext.Provider value={{ products, setProducts, collection, setCollection, fetchData ,types, loading }}>
       {children}
     </ProductsContext.Provider>
   );

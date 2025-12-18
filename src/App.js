@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home"
 import MainLayout from './layouts/MainLayout';
 import Contact from './pages/Contact';
@@ -13,12 +13,17 @@ import Necklace from './pages/Necklace';
 import Earings from './pages/Earings';
 import Dashboard from './pages/admin/Dashboard';
 import Set from './pages/Set';
+import Cart from './pages/Cart';
+import Item from './pages/Item';
+import ScrollToTop from './services/ScrollToTop';
+
 
 class App extends Component {
   render() {
     return (
       <>
       <Router>
+        <ScrollToTop/>
         <Routes>
           <Route path='/' element={<MainLayout/>}>
                 <Route path='' element={<Home/>}/>
@@ -31,11 +36,12 @@ class App extends Component {
                 <Route path='earings' element={<Earings/>}/>
                 <Route path='set' element={<Set/>}/>
                 <Route path='login' element={<Login/>}/>
+                <Route path='cart' element={<Cart/>}/>
                 {/*<Route path='register' element={<Register/>}/>*/}
-                <Route path='/backoffice' element={<Dashboard/>}/> 
+                <Route path='backoffice' element={<Dashboard/>}/> 
+                <Route path='item/:id' element={<Item/>}/>
           </Route>
-         
-
+      
         </Routes>
       </Router>
       </>

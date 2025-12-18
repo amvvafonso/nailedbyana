@@ -20,7 +20,7 @@ export default function ProductCarrousel(props) {
           break
         }
         let current = Math.floor(Math.random() * products.length)
-        if(!used.includes(current) && products[current].state === 'AVAILABLE'){
+        if(!used.includes(current) && products[current].state == 1){
             number.push(products[current])
             used.push(current)
         }
@@ -28,6 +28,7 @@ export default function ProductCarrousel(props) {
       }
     
       setRandomProducts(number)
+      console.log(number)
     }
     catch(Exce){
       console.log(Exce)

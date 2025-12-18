@@ -2,8 +2,6 @@ import "./Pages.css"
 
 
 export default function Contact(){
-
-
     return (
         <>
             <div style={{width : '100%'}}>

@@ -11,7 +11,7 @@ export default function Register(){
         const alert = document.getElementById("status");
         try {
             e.preventDefault()
-            setLoading(true)
+
                 
 
             const form = document.getElementById("register-form");
@@ -25,15 +25,11 @@ export default function Register(){
                 }).then(Response => Response.json())
 
             
-            console.log(result)
-            setLoading(false)
-            if(result.status){
+            if(result.success){
                 navigate("/")
             }
             else {
-                if(result.userExists){
-                    alert.innerHTML = "Já existe uma conta com esse email!"
-                }
+                alert.innerHTML = result.response
             }
         }
         catch(es){
@@ -58,6 +54,8 @@ export default function Register(){
                     <input type='text' id='name' name='name' placeholder='Name' />
                     <p>Username</p>
                     <input type='text' id='user' name='user' placeholder='Enter username' />
+                    <p>Telemovel</p>
+                    <input type='text' id='phone' name='phone' placeholder='Enter phone' />
                     <p>Password</p>
                     <input type='password' id='password' name='password' placeholder='Enter password' />
                     <button  type='submit'>Register</button>

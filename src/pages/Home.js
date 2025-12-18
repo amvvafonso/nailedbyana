@@ -18,7 +18,6 @@ function Home(){
     return (
         <>  
         <HomeBanner/>
-        <Banner promo={"10% OFF"} description={"Em compras iguais ou superiores a 45 Euros"} extra={"Promoção válida entre 15/11 e 30/11"}/>
         <ProductCarrousel title="Novidades" data={products}/>
         <br/>
         <br/>

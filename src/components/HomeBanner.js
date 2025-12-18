@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import './Components.css'
+import '../styles/HomeBanner.css'
 
 export function HomeBanner(){
     return (

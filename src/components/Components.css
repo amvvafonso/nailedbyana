@@ -1,214 +1,18 @@
 
-/* ------------------ Avatar ------------------ */
-.dropdown-avatar {
-    position: relative;
-    display: inline-block;
-    height: 100%;
-    align-content: center;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-avatar-content {
-    margin-top: -10px;
-    z-index: 1;
-    display: none;
-    position: absolute;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    min-width: 100px;
-    text-align: center;
-    background-color: white;
-    padding-bottom: 20px;
-}
-
-.dropdown-text {
-    margin-right: 50px;
-    font-family: 'Open Sans';
-    font-size: 15px;
-    color: var(--primary);
-}
-
-/* Links inside the dropdown */
-.dropdown-avatar a {
-    text-align: left;
-    min-width: 200px;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    background-color: white;
-    color: var(--primary);
-
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-avatar a:hover {
-    color: black;
-
-}
-
-/* Show the dropdown menu on hover */
-.dropdown-avatar:hover .dropdown-avatar-content {
-    display: block;
-    animation: dropdown 0.5s;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown-avatar:hover .dropbtn {
-    color: black;
-    cursor: pointer;
-
-}
 
 /* ------------------ Banner ------------------ */
 
-.banner-outer-div {
-    width: 100wh;
-    background-color: rgba(80, 80, 80, 0.7);
-    height: 300px;
-    margin-bottom: 100px;
-}
-.banner-inner-div {
-    margin: auto;
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    
-}
 
-.banner-promo-div {
-    text-align: center;
-    align-content: center;
-    width: 20%;
-    height: 100%;
-}
-
-.banner-promo {
-    font-size: 70px;
-    color: white;
-}
-.banner-extra {
-    text-decoration: underline;
-    color: white;
-    font-size: 15px;
-}
-.promo-description {   
-    font-family: 'Cormorant-Regular';
-    font-size: 50px;
-    color: white;
-}
-.banner-description-div {
-    align-content: center;
-    text-align: center;
-    width: 80%;
-    height: 100%;
-}
 /* ------------------ ProductDialog ------------------ */
 
-.outer-div {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
 
-.image-div {
-    width: 50%;
-    height: 100%;
-    max-height: 711px;
-    object-fit: cover;
-}
 
-.product-div {
-    width: 50%;
-    margin-left: 50px;
-}
 
-.dialog-title {
-    font-size: 40px;
-    font-weight: lighter;
-}
-
-.dialog-header {
-    font-size: 40px;
-    font-family: Cormorant;
-    font-weight: lighter;
-}
-.dialog-price {
-    font-size: 30px;
-    font-weight: lighter;
-}
-
-.dialog-button {
-    font-family: 'Open Sans';
-    font-size: 16px;
-    height: 80px;
-    font-weight: lighter;
-    width: 300px;
-    background-color: rgba(80, 80, 80, 0.2);
-    color: white;
-    border: none;
-}
 
 /* -------------------- HomeBanner --------------------*/
 
 
-.home-banner-div {
-    width: 100%;
-    height: 80vh;
-}
 
-.home-banner-inner-div {
-    width: 80%;
-    margin: auto;
-    height: 100%;
-    display: flex;
-}
-
-.banner-title-div {
-    width: 100%;
-    height: 100%;
-    align-content: center;
-}
-
-.banner-title {
-    font-size: 65px;
-    margin: 0;
-    height: fit-content;
-    font-weight: lighter;
-}
-
-.banner-description {
-    color: #9d9d9d;
-    font-size: 20px;
-    margin: auto;
-}
-
-.banner-image-div {
-    width: 100%;
-    text-align: right;
-    align-content: center;
-    
-}
-
-.banner-image {
-    width: 80%;
-}
-
-.banner-button {
-    background-color: transparent;
-    margin-top: 20px;
-    font-size: 20px;
-    width: 45%;
-    height: 70px;
-    border-width: 1px;
-    color: #9d9d9d;
-    margin-bottom: 50px;
-}
-.banner-button:hover {
-    transition: 0.2s;
-    color: black;
-    cursor: pointer;
-}
 
 /* -------------------- ProductCarrousel --------------------*/
 
@@ -223,160 +27,19 @@
     font-family: Cormorant-Regular;
 
 }
+.p-toast-message {
+    height: 100px;
+}
 
 /* -------------------- ProductTemplate --------------------*/
 
-.product-outer-div {
-    margin-right: 10px;
-    margin-left: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    padding-top: 5px;
-    cursor: pointer;
 
 
-}
-
-.product-image {
-    object-fit: contain;
-    max-height: 260px;
-    width: 100%;
-    height: 100%;
-}
-
-.product-outer-div:hover {
-    transition: 0.4s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
-    scale: 1.1;
-    z-index: 1;
-}
-
-.product-image-div{
-    width: 100%;
-    overflow: hidden;
-}
-
-.product-description-div {
-    width: 100%;
-    text-align: center;
-}
-
-.product-title {
-    color: #393939;
-    font-weight: lighter;
-    font-family: 'Open Sans';
-    font-size: 20px;
-
-}
-
-.product-price {
-    color: #666;
-    font-size: 16px;
-    height: fit-content;
-}
 
 
-.dialog-div {
-    width: 65vw;
-}
 
 
-.logout-navbar-button {
-    font-family: 'Open Sans';
-    font-size: 15px;
-    color: var(--primary);
-    background-color: transparent;
-    border: 0;
-    height: fit-content;
-    margin: 0;
-    cursor: pointer;
-}
 
-
-/* dropdown */
-
-.dropbtn {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: 50px;
-    font-family: 'Open Sans';
-    font-size: 15px;
-    color: var(--primary);
-    background-color: white;
-    border: 0;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-@media (max-width: 600px){
-    .dropbtn {
-        padding: 0;
-        text-align: left;
-        width: 100%;
-        font-family: 'Open Sans';
-        font-size: 25px;
-        color: var(--primary);
-        text-decoration: none;
-        border-bottom: solid;
-        border-width: 1px;
-        border-color: rgba(80, 80, 80, 0.3);
-        height: fit-content;
-    }
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-
-    display: none;
-    position: absolute;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    text-align: left;
-    min-width: 200px;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    background-color: white;
-    color: var(--primary);
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    color: black;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;    
-    animation: dropdown 0.5s;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    color: black;
-
-}
-
-
-@keyframes dropdown {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-    
-}
 
 
 @media (max-width: 600px){
@@ -390,32 +53,9 @@
             font-size: 25px;
             text-align: left;
             padding: 0;
+            min-width: 200px;
         }
-    .home-banner-div{
-        width: 100%;
-    }
-    .home-banner-inner-div {
-        width: 90%;
-        display: grid;
-    }
-    .banner-button {
-        background-color: white;
-        border-style: solid;
-        border-width: 1px;
-        height: 50px;  
-        border-radius: 1px;
-        border-color: #9d9d9d;
-        font-size: 20px;
-        width: 50%;
-    }
-
-    .banner-image-div {
-        width: 100%;
-    }
-    .banner-image {
-        width: 100%;
-    }
-
+   
 
     .carousel-div {
         margin-top: 150px;
@@ -423,30 +63,14 @@
 
     }
 
-    .product-outer-div {
-        margin: auto;
-        padding: 2px 2px 2px 2px;
-        z-index: 1;
-    }
-    .product-outer-div:hover {
-        scale: 1;
-        box-shadow: none;
-    }
-    .product-title {
-        font-size: 25px;
-    }
-    .product-price {
-        font-size: 20px;
-    }
+ 
     
     
     .dialog-div {
         width: 100% !important;
     }
 
-    .product-outer-div {
-        display: grid;
-    }
+    
 
     .outer-div {
         width: 100%;
@@ -469,36 +93,11 @@
     .product-image-div {
         text-align: center;
     }
-    .product-outer-div {
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-        cursor: pointer;
-        width: 100%;
-
-    }
+  
     .dialog-button {
         align-self: center;
     }
-    .banner-outer-div {
-        margin-top: 100px;
-    }
-
-    .banner-inner-div {
-        width: 100%;
-    }
-    .banner-promo-div {
-        width: 40%;
-    }
-    .banner-promo {
-        font-size: 40px;
-    }
-    .promo-description {
-        font-size: 26px;
-    }
-    .banner-extra {
-        font-size: 10px;
-        text-decoration: underline;
-    }
+    
 }
 
 .avatar-div {
@@ -527,3 +126,5 @@
         width: 100%;
     }
 }
+
+
