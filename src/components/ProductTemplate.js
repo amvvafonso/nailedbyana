@@ -36,7 +36,7 @@ export default function ProductTemplate( {product} ) {
       <Toast ref={toast} />
       <div onClick={handleClick}  className="product-outer-div">
         <div className="product-image-div">
-          <img style={{opacity : product.state == 1 ? '1' : '0.4'}} alt={product.name} className="product-image" src={product.image} />
+          <img loading="lazy" style={{opacity : product.state == 1 ? '1' : '0.4'}} alt={product.name} className="product-image" src={`${API_URL}/server/thumb.php?path=${product.image}&w=300`} />
         </div>
         <div className="product-description-div">
           <p className="product-title">

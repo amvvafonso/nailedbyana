@@ -3,24 +3,24 @@ import ProductPageTemplate from "../templates/ProductPageTemplate";
 import { useProducts } from "../services/ProductProvider";
 import { useEffect } from "react";
 
-export default function Earings(){
+ 
+export default function Alianca(){
 
     const { products, types, loading } = useProducts();
     
-    const earings = products.filter((p) => p.type == 3);
-    
-    useEffect((e) => {
+    const alianca = products.filter((p) => p.type == 8);
 
-    }, [earings])
+    useEffect((e) => {
+      
+    }, [alianca])
 
     if (loading) return <FullscreenLoading />;
-
-  
-
+    
+    
   return (
     <ProductPageTemplate
-      title={"Brincos"}
-      products={earings}
+      title={"Alianças"}
+      products={alianca}
       types={types}
       loading={loading}
     />

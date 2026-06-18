@@ -1,24 +1,17 @@
 import { Link, Outlet } from "react-router-dom";
-import NavBar from "../components/shared/NavBar";
 import PageFooter from "../components/shared/PageFooter";
 import "./Layout.css";
 
-import { ValidadeSession } from "../hooks/useSession";
+import useSession, { ValidadeSession } from "../hooks/useSession";
+import SideBar from "../components/shared/SideBar";
+import { useState } from "react";
 
+export default function BackofficeLayout() {
 
-
-
-export default function MainLayout() {
-  const { showWarning, setShowWarning } = ValidadeSession();
-
-
-
+  const { showWarning, setShowWarning } = useSession()
 
   return (
     <>
-
-
-
       {showWarning && (
         <div style={{ width: '100vw', height: '100vh', position: 'fixed', backgroundColor: 'rgba(80,80,80,0.5)', alignContent: 'center', textAlign: 'center', zIndex: '1' }}>
           <div className="warning-inner-div">
@@ -27,12 +20,11 @@ export default function MainLayout() {
           </div>
         </div>
       )}
-      <NavBar />
-      <div className="layout">
+      <div style={{ backgroundColor: '#fbf9f9' }} className="backoffice-layout">
+        <SideBar />
         <Outlet />
       </div>
 
-      <PageFooter />
     </>
   )
 }

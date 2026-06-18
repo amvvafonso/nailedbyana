@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import '../styles/HomeBanner.css'
+import API_URL from '../config'
 
 export function HomeBanner(){
     return (
@@ -12,7 +13,7 @@ export function HomeBanner(){
                                 <Link to={"/collection"} ><button className='banner-button'>Conhecer catálogo</button></Link>   
                             </div>
                             <div className='banner-image-div'>
-                                <img alt='banner' className='banner-image'  src='../assets/earing.webp'/>
+                                <img alt='banner' className='banner-image'  src={API_URL+ '/assets/earing.webp'}/>
                             </div>
                     </div>
             </div>

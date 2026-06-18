@@ -22,8 +22,8 @@ export default function useSession() {
         const auth = await res.json();
         setLoading(false);
 
-        if (auth.success) {
-          setUser(auth.userLogged);
+        if (auth?.success) {
+          setUser(auth?.userLogged);
           setLogged(true);
         } else {
           setUser(null);
@@ -35,7 +35,7 @@ export default function useSession() {
         }
       } catch (error) {
         console.error("Session validation error:", error);
-        navigate("/");
+        navigate("/login");
       }
     }
 
@@ -70,8 +70,8 @@ export function ValidadeSession() {
 
                 setTimeout(() => setLoading(false), 300);
 
-                if (auth.success) {
-                    setUser(auth.userLogged);
+                if (auth?.success) {
+                    setUser(auth?.userLogged);
                     setLogged(true);
                     setShowWarning(false);
                     previouslyLogged.current = true;

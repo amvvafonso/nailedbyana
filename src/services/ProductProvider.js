@@ -14,11 +14,11 @@ export function ProductsProvider({ children }) {
       const res = await fetch(`${API_URL}/server/?action=getProducts`, { 
         method: "POST",
        }).then((Response ) => Response.json());
-       console.log(res)
+
 
       setProducts(res.data);
       setCollection(res.activeCollection || null );
-      
+
       const typesRes = await fetch(`${API_URL}/server/?action=getTypes`, { method: "POST" });
       const typesData = await typesRes.json();
 

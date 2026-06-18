@@ -6,12 +6,12 @@ export default function About(){
             <div style={{minHeight : '100vh !important'}} id="about" className="content">
                 <div className="about-outer-div">
                     <div className="about-image-div">
-                        <img alt="about" className="about-image" src="./assets/about.webp" />
+                       <img alt="about" className="about-image" src="./assets/about.webp" />
                     </div>
                     <div className="about-description-div">
                         <h1 className="about-title">BY ANA.</h1>
                         <p className="about-description">
-                             O meu nome é <strong>Ana Morgado</strong> e sou esteticista. Sempre fui apaixonado pelo mundo da joalharia, e em Janeiro de 2025 decidi juntar estes dois mundos que me dizem tanto - daí criar a minha própria marca.
+                             O meu nome é <strong>Ana Morgado</strong> e sou esteticista. Sempre fui apaixonada pelo mundo da joalharia, e em Janeiro de 2025 decidi juntar estes dois mundos que me dizem tanto - daí criar a minha própria marca.
                              <br/>
 
                             A nossa marca nasceu como <strong>NAILED BY ANA.</strong>, inspirada no meu trabalho como esteticista. Contudo, senti necessidade de criar um espaço que refletisse apenas o universos das joias. 

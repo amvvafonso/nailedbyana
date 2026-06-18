@@ -16,10 +16,28 @@
     height: 40vh;
 }
 
+.cart-grid-div {
+    width: 100%;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+
+input{
+    width: 100%;
+    font-size: 20px;
+}
 .cart-product-div {
     max-height: 40vh;
     height: 40vh;
     overflow-y: auto;
+}
+
+textarea { 
+    width: 100%;
+    font-size: 20px;
 }
 
 .reserve-button {

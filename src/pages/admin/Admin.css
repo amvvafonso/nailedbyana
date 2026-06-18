@@ -1,55 +1,58 @@
 .dialog-div-admin {
-    display: flex;
-    width: 100%;
+  width: 100%;
+  display: flex;
 }
 
 .header-row {
-    display: flex;
+  display: flex;
 }
+
 .product-input-div {
-    width: 40%;
-    height: 100%;
+  width: 60%;
+  height: 100%;
+
 }
 
 .image-div-admin {
-    text-align: center;
-    align-content: center;
-    width: 100%;
-    height: 500px;
+  text-align: center;
+  align-content: center;
+  width: 20%;
+  height: 200px;
 }
 
 .image-preview {
-    margin: auto;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 
 }
 
 /* -------------------- Charts and Data -------------------- */
 
 .data-div {
-    width: 80%;
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    margin: auto;
+  width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
 }
 
 .dashboard-card {
-    max-width: 25%;
-    margin: auto;
+  max-width: 25%;
+  margin: auto;
 }
 
 
 
 .datatable-option {
-    cursor: pointer;
-    padding: 5px 5px 5px 5px;
-    border-radius: 50px;
+  cursor: pointer;
+  padding: 5px 5px 5px 5px;
+  border-radius: 50px;
 }
+
 .datatable-option:hover {
-    background-color: rgba(80, 80, 80, 0.2);
+  background-color: rgba(80, 80, 80, 0.2);
 
 }
 
@@ -57,67 +60,118 @@
 /* -------------------- Collection addition -------------------- */
 
 .collection-addition-div {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: fit-content;
 }
 
 
 .p-column-title {
-    margin: auto;
+  margin: auto;
 }
 
 
 .input-field {
-    width: 22%;
-    font-size: 25px;
+  width: 22%;
+  font-size: 25px;
 }
 
 .form-button {
-    color: var(--primary);
-    background-color: white;
-        border-style: solid;
-        border-width: 1px;
-        border-radius: 1px;
-        border-color: #9d9d9d;
-        font-size: 10px;
-        padding: 10px;
-        margin: 0;
+  color: var(--primary);
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 1px;
+  border-color: #9d9d9d;
+  font-size: 10px;
+  padding: 10px;
+  margin: 0;
 }
 
 .form-button:hover {
-    transition: 0.3s;
-    color: black;
-    cursor: pointer;
-    background-color: rgba(20, 20, 20, 0.1);
+  transition: 0.3s;
+  color: black;
+  cursor: pointer;
+  background-color: rgba(20, 20, 20, 0.1);
 }
 
 .column-content {
-    text-align: center;
+  text-align: center;
 }
+
 .p-inputswitch.p-highlight .p-inputswitch-slider {
-    background: green;
+  background: green;
 }
 
 
 
 .row-pending {
-    background-color: #fff3cd;
-    /* yellowish */
+  background-color: #fff3cd;
+  /* yellowish */
 }
 
 .row-confirmed {
-    background-color: #d4edda;
-    /* greenish */
+  background-color: #d4edda;
+  /* greenish */
 }
 
 .row-cancelled {
-    background-color: #f8d7da;
-    /* reddish */
+  background-color: #f8d7da;
+  /* reddish */
 }
 
 .row-concluded {
-    background-color: rgba(80, 80, 80, 0.2);
+  background-color: rgba(80, 80, 80, 0.2);
+}
+
+
+/* NEW CLASSES */
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.dashboard-header {
+  color: var(--primary);
+}
+
+.search-div {
+  width: 100%;
+  height: 10vh;
+  align-content: center;
+}
+
+.search-inner-div {
+  display: flex;
+
+  gap: 10px;
+  align-items: center;
+}
+
+.search-input {
+  width: 50%;
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  letter-spacing: 1px;
+  font-size: 15px;
+  font-weight: 200;
+  outline: 1px;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.search-input:hover {
+  outline: 1px var(--primary) solid;
+
+}
+
+.search-input:focus {
+  outline: 1px var(--primary) solid;
+  font-size: 16px;
+  transition: 0.1s;
 }

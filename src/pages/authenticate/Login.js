@@ -50,19 +50,22 @@ export default function Login(){
     }
     
 
-    return (
+  return (
         <> 
-            <div className='input-div'>
+           <div className='login-div'>
                 <h1>Login</h1>
                 <p style={{fontSize : '15px', color : 'red'}} id='status'></p>
                 <form onSubmit={handleSubmit} id='login-form' method='POST'>
-                    <p>Email</p>
-                    <input type='email' id='email' name='email' placeholder='Enter email' />
-                    <p>Password</p>
-                    <input type='password' id='password' name='password' placeholder='Enter password' />
-                    <button type='submit'>Login</button>
+                    <div className='form-div'>
+                        <label for="username">Username
+                        <input required className='input-field-login' type='text' id='email' name='email' placeholder='Email' /></label>
+                        <label for="password">Password
+                        <input required className='input-field-login' type='password' id='password' name='password' placeholder='Password' /></label>
+                    </div>
+
+                    <button className='form-button-login' type='submit'>Login</button>
                 </form>
             </div>
         </>
-    )
+  )
 }

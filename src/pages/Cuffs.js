@@ -3,15 +3,11 @@ import ProductPageTemplate from "../templates/ProductPageTemplate";
 import { useProducts } from "../services/ProductProvider";
 import { useEffect } from "react";
 
-export default function Earings(){
+export default function Cuffs(){
 
     const { products, types, loading } = useProducts();
     
-    const earings = products.filter((p) => p.type == 3);
-    
-    useEffect((e) => {
-
-    }, [earings])
+    const cuffs = products.filter((p) => p.type == 7);
 
     if (loading) return <FullscreenLoading />;
 
@@ -19,8 +15,8 @@ export default function Earings(){
 
   return (
     <ProductPageTemplate
-      title={"Brincos"}
-      products={earings}
+      title={"Cuff's"}
+      products={cuffs}
       types={types}
       loading={loading}
     />

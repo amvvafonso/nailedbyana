@@ -1,0 +1,242 @@
+.item-add-icon {
+    cursor: pointer;
+    padding: 2px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.item-add-icon:hover {
+    background-color: rgba(80, 80, 80, 0.2);
+    transition: 0.2s;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    width: 100%;
+    height: 100%;
+}
+
+.custom-paginator {
+    background-color: transparent;
+    padding-bottom: 50px;
+}
+
+.add-product-button {
+    background-color: #71581a;
+    color: white;
+    padding: 10px 20px;
+    font-size: 12px;
+    border: none;
+}
+
+.add-product-button:hover {
+    cursor: pointer;
+    background-color: rgba(113, 88, 26, 0.8);
+}
+
+/* Opcional: Ajuste para telemóveis (1 coluna se a tela for pequena) */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* ADD PRODUCT DIALOG */
+  
+.dialog-main-div {
+    display: grid;
+    grid-template-columns: 48% 53%;
+    gap: 50px;
+    height: 75vh;
+}
+
+.dialog-left {
+    width: 100%;
+}
+
+.dialog-right {
+    width: 80%;
+    margin-top: 50px;
+}
+
+.title-input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    font-size: 25px;
+    font-family: "Times New Roman", Times, serif;
+    color: rgba(80, 80, 80, 1);
+}
+.title-input::placeholder {
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+    color: rgba(80, 80, 80, 0.5);
+}
+.title-input:focus {
+    outline: rgba(80, 80, 80, 0.5);
+    background-color: rgba(80, 80, 80, 0.05);
+}
+
+.button-group {
+    display: flex;
+    /* Faz os botões saltarem para a linha de baixo se necessário */
+    flex-wrap: wrap;
+    /* Espaço entre os botões */
+    gap: 12px;
+    /* Alinha ao centro (opcional, podes usar flex-start) */
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.type-button {
+    background-color: white;
+    color: #664b09;
+    padding: 10px 20px;
+    font-size: 13px;
+    border: 1px solid rgba(80, 80, 80, 0.1);
+}
+
+.type-button:hover {
+    cursor: pointer;
+    background-color: rgba(113, 88, 26, 1);
+    color: white;
+    transition: 0.2s;
+}
+
+.product-cover-input {
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid;
+    padding: 5px 15px;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+    background-color: rgba(113, 88, 26, 1);
+}
+
+.product-cover-input:hover {
+    cursor: pointer;
+    background-color: rgba(113, 88, 26, 0.8);
+    transform: 0.2s;
+}
+
+
+.item-div {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    gap: 10px;
+}
+
+.item-inner-div {
+    background-color: white;
+    display: grid;
+    grid-template-columns: 40% 80%;
+    gap: 10px;
+    width: 100%;
+    padding: 0px 20px;
+    border: 1px solid rgba(113, 88, 26, .1);
+}
+
+.p-dialog .p-dialog-content:last-of-type {
+    background-color: #fbf9f9;
+}
+
+.item-input {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.item-input:hover {
+    background-color: rgba(80, 80, 80, 0.1);
+    transition: 0.2s;
+}
+.item-input:focus {
+    outline: none;
+    background-color: rgba(80, 80, 80, 0.1);
+}
+
+.item-label {
+    font-size: 20px;
+    margin: 0;
+    color: black;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.remove-item-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.remove-item-button:hover {
+    color: red;
+    transition: 0.2s;
+}
+
+.change-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.change-item-image:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.2s;
+    filter: brightness(50%);
+}
+
+.confirm-deletion-dialog-label {
+    font-size: 15px;
+}
+.delete-whole-button {
+    position: absolute;
+    bottom: 35px;
+    color: rgba(255, 0, 0, 0.4);
+    font-weight: 200;
+    background-color: transparent;
+    border: 1px dashed rgba(255, 0, 0, 0.4);
+    border-radius: 10px;
+}
+
+.delete-whole-button:hover {
+    cursor: pointer;
+    border: 1px solid;
+    color: red;
+}
+
+.create-button {
+    padding: 10px 20px;
+    background-color: rgba(113, 88, 26, 1);
+    color: white;
+    border: none;
+}
+
+.create-button:hover {
+    cursor: pointer;
+    background-color: rgba(113, 88, 26, 0.8);
+}
+
+.cancel-button {
+    padding: 10px 20px;
+    color: rgba(113, 88, 26, 1);
+    background-color: white;
+    border: 1px solid rgba(113, 88, 26, 0.1);
+}
+.cancel-button:hover {
+    cursor: pointer;
+    background-color: rgba(200, 200, 200, 0.1);
+}

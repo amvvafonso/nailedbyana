@@ -54,17 +54,14 @@ export default function NavBarMobile(){
                                 <Link onClick={() => setToggle(false)} to={"rings"}>Aneis</Link>
                                 <Link onClick={() => setToggle(false)} to={"earings"}>Brincos</Link>
                                 <Link onClick={() => setToggle(false)} to={"necklace"}>Colares</Link>
+                                <Link onClick={() => setToggle(false)} to={"cuffs"}>Cuff's</Link>
                                 <Link onClick={() => setToggle(false)} to={"set"}>Conjuntos</Link>
+                                <Link onClick={() => setToggle(false)} to={"piercings"}>Piercings</Link>
                                 <Link onClick={() => setToggle(false)} to={"bracelets"}>Pulseiras</Link>
                         </Dropdown>
                         <Link onClick={() => setToggle(false)} to={"about"} className="nav-link">Sobre nós</Link>
                         <Link onClick={() => setToggle(false)} to={"contact"} className="nav-link">Contacto</Link>
-        
-                        
-                        {!logged ? <>
-                        <Link onClick={() => setToggle(false)} to={"login"} className="nav-link">Login</Link></> : <><Link onClick={() => setToggle(false)} to={"cart"} className="nav-link" >Carrinho <i className="pi pi-shopping-cart "/></Link><Link onClick={() => setToggle(false)} className="nav-link" to={"/"}>Perfil</Link> <Logout onClick={() => setToggle(false)}/>
-                            
-                            </>}
+                        <Link onClick={() => setToggle(false)} to={"cart"} className="nav-link" >Carrinho <i className="pi pi-shopping-cart "/></Link>
                     </div>
                 </div>
     

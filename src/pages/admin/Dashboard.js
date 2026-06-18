@@ -15,6 +15,13 @@ import { Toast } from "primereact/toast";
 import { InputSwitch } from "primereact/inputswitch";
 import ProductTable from "./ProductTable";
 import ReservationTable from "./ReservationTable";
+import { Chart } from 'primereact/chart';
+import { FaSearch } from "react-icons/fa";
+import BackofficeHeader from "../../components/BackofficeHeader";
+import BackofficeCard from "../../components/BackofficeCard";
+import { Avatar } from "primereact/avatar";
+import UserAvatar from "../../components/Avatar";
+
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -24,7 +31,7 @@ export default function Dashboard() {
   const { user, logged, loading } = useSession();
 
   // Product provider
-  const { products, collection } = useProducts();
+  const { products, collection, types } = useProducts();
 
   // Data lists
   const [collectionOptions, setCollectionOptions] = useState([]);
@@ -39,6 +46,7 @@ export default function Dashboard() {
 
   // Dialogs
   const [isCollectionDialogOpen, setIsCollectionDialogOpen] = useState(false);
+  const [isTypeCollectionOpen, setIsTypeCollectionOpen] = useState(false)
 
   // ------------------------------------------------------------
   // Toast helpers
@@ -64,7 +72,7 @@ export default function Dashboard() {
       icon: "pi pi-exclamation-triangle",
       defaultFocus: "accept",
       accept: () => deleteCollectionConfirmed(collection),
-      reject: () => {},
+      reject: () => { },
     });
   };
 
@@ -172,6 +180,7 @@ export default function Dashboard() {
   const deleteCollectionRequest = async (collection) => {
     try {
       const formData = new FormData();
+      console.log(collection.collection_id)
       formData.append("collection_id", collection.collection_id);
 
       const result = await fetch(
@@ -182,6 +191,7 @@ export default function Dashboard() {
           credentials: "include",
         }
       ).then((res) => res.json());
+
 
       if (result.status) {
         setAllCollections((prev) =>
@@ -256,7 +266,7 @@ export default function Dashboard() {
 
   if (loading) return <FullscreenLoading />;
 
-  if (!user || user.permission !== "1") navigate("/");
+  if (!user || user.permission !== "1") navigate("/login");
 
   // ------------------------------------------------------------
   // Render
@@ -264,136 +274,133 @@ export default function Dashboard() {
 
   return (
     <>
-      <Toast ref={toast} />
-      <ConfirmDialog />
-
-      <h1 style={{ textAlign: "center" }}>Dashboard</h1>
-      <Divider />
-
-      <div className="data-div">
-        <Card className="dashboard-card" title="Produtos ativos">
-          <p>
-            Existem <strong>{products.length}</strong> produtos ativos neste
-            momento!
-          </p>
-        </Card>
-
-        <Card className="dashboard-card" title="Coleção ativa">
-          <p>
-            A coleção ativa é <strong>{activeCollectionName}</strong>
-          </p>
-          <button
-            className="form-button"
-            onClick={() => setIsCollectionDialogOpen(true)}
-            style={{ fontSize: "20px", margin: 0 }}
-          >
-            Gerir coleções
-          </button>
-        </Card>
+      <div className="main-div">
+        <div className="search-div">
+          {/* <div className="search-inner-div">
+            <FaSearch color="rgba(var(--primary), 0.5)" />
+            <input className="search-input" placeholder={"SEARCH INVENTORY..."} />
+          </div> */}
+        </div>
+        <BackofficeHeader title={"Olá, " + user.name} subtitle={"Aqui poderá ver um Overview da loja"} />
+        <div style={{display : 'flex', gap : '20px',justifyContent : 'space-evenly'}}>
+          <BackofficeCard title={"TOTAL DE PRODUTOS"} value={products.length + " Produtos"}/>
+          <BackofficeCard title={"COLEÇÂO"} value={collection}/>
+          <BackofficeCard />
+        </div>
       </div>
 
-      <Divider />
-      <ProductTable />
-
-      <Divider />
-
-      <div
-        style={{
-          maxHeight: "1000px",
-          overflow: "auto",
-          height: "1000px",
-          margin: "auto",
-          textAlign: "center",
-          width: "80%",
-          borderTop: "solid 1px rgba(80,80,80, 0.2)",
-        }}
-      >
-        <ReservationTable />
-      </div>
-
-      {/* -------------------- Collection Dialog -------------------- */}
-      <Dialog
-        showHeader={false}
-        visible={isCollectionDialogOpen}
-        modal
-        style={{
-          width: "50vw",
-          paddingTop: "50px",
-          backgroundColor: "white",
-        }}
-        onHide={() => setIsCollectionDialogOpen(false)}
-      >
-        <h1 style={{ textAlign: "center" }}>Coleções</h1>
-
-        <DataTable footer={collectionForm} value={allCollections}>
-          <Column field="collection_name" header="Nome" />
-          <Column field="year" header="Ano" />
-          <Column
-            field="active"
-            header="Estado"
-            body={activeCollectionTemplate}
-          />
-          <Column
-            header="Opções"
-            body={collectionOptionsTemplate}
-          />
-        </DataTable>
-
-        <button
-          onClick={() => setIsCollectionDialogOpen(false)}
-          style={{
-            position: "absolute",
-            top: "5px",
-            right: "10px",
-            border: 0,
-            backgroundColor: "transparent",
-            cursor: "pointer",
-            margin: 0,
-          }}
-        >
-          <i className="pi pi-times" />
-        </button>
-      </Dialog>
+      {/* <Toast ref={toast} /> */}
+      {/* <ConfirmDialog /> */}
+      {/**/}
+      {/* <h1 style={{ textAlign: "center" }}>Dashboard</h1> */}
+      {/* <Divider /> */}
+      {/**/}
+      {/* <div className="data-div"> */}
+      {/*   <Card className="dashboard-card" title="Produtos ativos"> */}
+      {/*     <p> */}
+      {/*       Existem <strong>{products.length}</strong> produtos ativos neste */}
+      {/*       momento! */}
+      {/*     </p> */}
+      {/*   </Card> */}
+      {/*  <Card className="dashboard-card" title="Tipos de produtos"> */}
+      {/*     <p> */}
+      {/*       Tipos de produtos */}
+      {/*     </p> */}
+      {/*     <button */}
+      {/*       className="form-button" */}
+      {/*       onClick={() => setIsTypeCollectionOpen(true)} */}
+      {/*       style={{ fontSize: "20px", margin: 0 }} */}
+      {/*     > */}
+      {/*       Gerir tipos de produtos */}
+      {/*     </button> */}
+      {/*   </Card>  */}
+      {/**/}
+      {/*   <Card className="dashboard-card" title="Coleção ativa"> */}
+      {/*     <p> */}
+      {/*       A coleção ativa é <strong>{activeCollectionName}</strong> */}
+      {/*     </p> */}
+      {/*     <button */}
+      {/*       className="form-button" */}
+      {/*       onClick={() => setIsCollectionDialogOpen(true)} */}
+      {/*       style={{ fontSize: "20px", margin: 0 }} */}
+      {/*     > */}
+      {/*       Gerir coleções */}
+      {/*     </button> */}
+      {/*   </Card> */}
+      {/* </div> */}
+      {/**/}
+      {/* <Divider/> */}
+      {/*  <ProductTable/> */}
+      {/**/}
+      {/* <Divider /> */}
+      {/**/}
+      {/* <div */}
+      {/*   style={{ */}
+      {/*     maxHeight: "1000px", */}
+      {/*     overflow: "auto", */}
+      {/*     height: "1000px", */}
+      {/*     margin: "auto", */}
+      {/*     textAlign: "center", */}
+      {/*     width: "80%", */}
+      {/*     borderTop: "solid 1px rgba(80,80,80, 0.2)", */}
+      {/*   }} */}
+      {/* > */}
+      {/*   <ReservationTable /> */}
+      {/* </div> */}
+      {/**/}
+      {/**/}
+      {/*   <Divider/> */}
+      {/**/}
+      {/**/}
+      {/* {/* -------------------- Collection Dialog -------------------- */}
+      {/* <Dialog */}
+      {/*   showHeader={false} */}
+      {/*   visible={isCollectionDialogOpen} */}
+      {/*   modal */}
+      {/*   style={{ */}
+      {/*     width: "50vw", */}
+      {/*     paddingTop: "50px", */}
+      {/*     backgroundColor: "white", */}
+      {/*   }} */}
+      {/*   onHide={() => setIsCollectionDialogOpen(false)} */}
+      {/* > */}
+      {/*   <h1 style={{ textAlign: "center" }}>Coleções</h1> */}
+      {/**/}
+      {/*   <DataTable footer={collectionForm} value={allCollections}> */}
+      {/*     <Column field="collection_name" header="Nome" /> */}
+      {/*     <Column field="year" header="Ano" /> */}
+      {/*     <Column */}
+      {/*       field="active" */}
+      {/*       header="Estado" */}
+      {/*       body={activeCollectionTemplate} */}
+      {/*     /> */}
+      {/*     <Column */}
+      {/*       header="Opções" */}
+      {/*       body={collectionOptionsTemplate} */}
+      {/*     /> */}
+      {/*   </DataTable> */}
+      {/**/}
+      {/*   <button */}
+      {/*     onClick={() => setIsCollectionDialogOpen(false)} */}
+      {/*     style={{ */}
+      {/*       position: "absolute", */}
+      {/*       top: "5px", */}
+      {/*       right: "10px", */}
+      {/*       border: 0, */}
+      {/*       backgroundColor: "transparent", */}
+      {/*       cursor: "pointer", */}
+      {/*       margin: 0, */}
+      {/*     }} */}
+      {/*   > */}
+      {/*     <i className="pi pi-times" /> */}
+      {/*   </button> */}
+      {/* </Dialog> */}
+      {/* <Dialog visible={isTypeCollectionOpen} onHide={() => { setIsTypeCollectionOpen(false)}}> */}
+      {/*     <DataTable value={types}> */}
+      {/*       <Column field="type" header="Tipo"/> */}
+      {/*     </DataTable> */}
+      {/**/}
+      {/* </Dialog> */}
     </>
   );
-}
-
-// ------------------------------------------------------------
-// Product Model — cleaned but logic unchanged
-// ------------------------------------------------------------
-
-class Product {
-  constructor() {
-    this.collection_id = "";
-    this.collection_name = "";
-    this.image = "";
-    this.name = "";
-    this.price = "";
-    this.product_id = "";
-    this.quantity = "";
-    this.season = "";
-    this.state = "";
-    this.type = "";
-    this.year = "";
-  }
-
-  isEqual(other) {
-    return this.product_id === other.product_id;
-  }
-
-  existing(product) {
-    Object.assign(this, {
-      collection_id: product.collection_id || "",
-      collection_name: product.collection_name || "",
-      image: product.image || "",
-      name: product.name || "",
-      price: product.price || "",
-      product_id: product.product_id || "",
-      quantity: product.quantity || "",
-      season: product.season || "",
-      state: product.state || "",
-      type: product.type || "",
-      year: product.year || "",
-    });
-  }
 }

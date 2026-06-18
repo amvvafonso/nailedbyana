@@ -1,0 +1,12 @@
+.header-div {
+  width: 90%;
+  height: 175px;
+  align-content: center;
+}
+
+.header-inner-div {
+  width: 90%;
+  margin: auto;
+  height: 100%;
+  align-content: center;
+}

@@ -37,10 +37,11 @@ export default function Item(){
                 setTimeout(() => {
                     setImageLoading(false)
                 }, 500);
-                
+
             }
             else {
                 setItems(res.response)
+                
             }
         
             setLoading(false)
@@ -72,9 +73,7 @@ export default function Item(){
     const changeContrast = (item) => {
         setImageLoading(true)
         setSelectedItem(item)
-        setTimeout(() => {
-            setImageLoading(false)
-        }, 500);
+        setImageLoading(false)
     }
   
 
@@ -138,18 +137,18 @@ export default function Item(){
         <Toast ref={toast}/>
             <div className="item-main-div">
                 <div className="back-div">
-                    <Link style={{textDecoration : 'none', color : 'black'}} to={"/collection"}><i className="pi pi-arrow-left"/>Voltar</Link>
+                    <Link  className="back" to={"/collection"}><i className="pi pi-arrow-left"/>Voltar</Link>
                 </div>
                 <div className="item-outer-div">
                     <div className="item-image-div">
-                        <img className="item-image" src={selectedItem.image} />
+                       {imageLoading ? <><LoadingComponent/></> : <> <img className="item-image" src={API_URL + selectedItem.image} /></>}
                     </div>
                     <div className="item-info-div">
                         <div className="item-info-inner-div">
                             <h1 className="item-title">{selectedItem.name}</h1>
                             {selectedItem.state == 1 ? <><p className="item-price">{selectedItem.price}€</p></> : <><p key={selectedItem.item_id} style={{color : selectedItem.state == 1 ? 'black' : 'red'}} className="item-state" >Indisponível</p></>}
                             <div className="contrast-div">
-                                {items > 1 ? items.map((item, index) => <><span key={items[index].item_id} onClick={() => item.state == 1 && item.item_id != selectedItem.item_id ? changeContrast(items[index]) : ''}><Contrast selected={selectedItem.item_id === item.item_id ? true : false} state={item.state} contrast={item.contrast}/></span></>) : ''}
+                                {items.length > 1 ? items.map((item, index) => <><span key={items[index].item_id} onClick={() => item.state == 1 && item.item_id != selectedItem.item_id ? changeContrast(items[index]) : ''}><Contrast selected={selectedItem.item_id === item.item_id ? true : false} state={item.state} contrast={item.contrast}/></span></>) : ''}
                                 
                             </div>
                             <p style={{fontSize : '16px'}}>

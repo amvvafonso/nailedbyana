@@ -12,7 +12,7 @@ export default function UserAvatar({user, image}){
                 <div className="dropdown-avatar-content">
                     <Link className="dropdown-text" to={'/'} style={{textDecoration : 'none'}}>{user.name}</Link>
                      {user.permission === '1' ? <>
-                     <Link className="dropdown-text" to={'backoffice'} style={{textDecoration : 'none'}}>Backoffice</Link></> : ''}
+                     <Link className="dropdown-text" to={'/backoffice/dashboard'} style={{textDecoration : 'none'}}>Backoffice</Link></> : ''}
                     <Logout className="dropdown-text" />
                 </div>
             </div>

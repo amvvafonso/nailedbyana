@@ -1,48 +1,58 @@
-import "./NavBar.css"
+import "./NavBar.css";
 import { useEffect } from "react";
-import 'primeicons/primeicons.css';
+import "primeicons/primeicons.css";
 import NavBarDesktop from "./NavBarDesktop";
 import NavBarMobile from "./NavBarMobile";
 
+function NavBar() {
+  useEffect(() => {
+    // Definimos a função dentro do useEffect para maior segurança
+    const scrollFunction = () => {
+      const navDesktop = document.getElementById("navBarScroll");
+      const navMobile = document.getElementById("navBarMobileScroll");
 
-function scrollFunction() {
-            if (document.body.scrollTop > 60 || document.documentElement.scrollTop > 60) {
-                document.getElementById("navBarScroll").classList.remove("nav-bar-hidden")
-                document.getElementById("navBarScroll").classList.add("nav-bar-visible")
-                document.getElementById("navBarMobileScroll").classList.remove("nav-bar-hidden")
-                document.getElementById("navBarMobileScroll").classList.add("nav-bar-visible")
-            } 
-            else {
-                document.getElementById("navBarScroll").classList.add("nav-bar-hidden")
-                document.getElementById("navBarScroll").classList.remove("nav-bar-visible")
-                document.getElementById("navBarMobileScroll").classList.add("nav-bar-hidden")
-                document.getElementById("navBarMobileScroll").classList.remove("nav-bar-visible")
-            }
-        
-        } 
+      const isScrolled =
+        document.body.scrollTop > 60 || document.documentElement.scrollTop > 60;
 
+      // Verificação de Segurança (O "Null Check")
+      // Só executa se os elementos existirem na página atual
+      if (navDesktop) {
+        if (isScrolled) {
+          navDesktop.classList.replace("nav-bar-hidden", "nav-bar-visible");
+        } else {
+          navDesktop.classList.replace("nav-bar-visible", "nav-bar-hidden");
+        }
+      }
 
+      if (navMobile) {
+        if (isScrolled) {
+          navMobile.classList.replace("nav-bar-hidden", "nav-bar-visible");
+        } else {
+          navMobile.classList.replace("nav-bar-visible", "nav-bar-hidden");
+        }
+      }
+    };
 
-function NavBar(){
-    
+    // Usamos addEventListener em vez de window.onscroll
+    window.addEventListener("scroll", scrollFunction);
 
+    // FUNÇÃO DE LIMPEZA (Essencial para não crashar o browser)
+    return () => {
+      window.removeEventListener("scroll", scrollFunction);
+    };
+  }, []); // Array vazio [] garante que isto só corre uma vez ao montar
 
-    useEffect(() => {
-        window.onscroll = function() {scrollFunction()};
-
-    })
-
-    return (
-        <>
-        <div className="hide">
-            <NavBarDesktop/>
-        </div>
-             <div className="visi">
-                <NavBarMobile/>           
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className="hide">
+        {/* Garante que dentro destes componentes os IDs 'navBarScroll' existem */}
+        <NavBarDesktop />
+      </div>
+      <div className="visi">
+        <NavBarMobile />
+      </div>
+    </>
+  );
 }
-
 
 export default NavBar;
