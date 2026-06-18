@@ -3,13 +3,11 @@ import "../styles/Cart.css";
 import { useCart } from "../services/Cart";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { useEffect, useRef, useState } from "react";
-import useSession from "../hooks/useSession";
 import FullscreenLoading from "../components/Loading";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../services/ProductProvider";
 import { Toast } from "primereact/toast";
-import { Divider } from "primereact/divider";
 export default function Cart() {
   const { cart, fetchCart } = useCart();
   const [preco, setPreco] = useState(0);
@@ -21,7 +19,7 @@ export default function Cart() {
 
   useEffect(() => {
     let aux = 0;
-    cart.map((product) => {
+    cart.forEach((product) => {
       aux += Number(product.reserveQty) * Number(product.price);
     });
     setPreco(aux);

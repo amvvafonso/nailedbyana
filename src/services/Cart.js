@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import API_URL from "../config";
 
-const ProductsContext = createContext();
+const CartContext = createContext();
 
 export function Cart({ children }) {
   const [cart, setCart] = useState([]);
@@ -34,12 +34,12 @@ export function Cart({ children }) {
   }, [fetchCart]);
 
   return (
-    <ProductsContext.Provider value={{ cart, setCart, fetchCart, loading }}>
+    <CartContext.Provider value={{ cart, setCart, fetchCart, loading }}>
       {children}
-    </ProductsContext.Provider>
+    </CartContext.Provider>
   );
 }
 
 export function useCart() {
-  return useContext(ProductsContext);
+  return useContext(CartContext);
 }

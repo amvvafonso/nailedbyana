@@ -1,10 +1,10 @@
-import { Form, Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import API_URL from "../config";
 import { useEffect, useState, useRef } from "react";
 import FullscreenLoading, { LoadingComponent } from "../components/Loading";
 import "../styles/Item.css"
 import Contrast from "../components/Contrast";
-import { Cart, useCart } from "../services/Cart";
+import { useCart } from "../services/Cart";
 import { Toast } from "primereact/toast";
 
 
@@ -22,7 +22,7 @@ export default function Item(){
     const [enable, setEnable] = useState(true)
     const toast = useRef()
     const [qty, setQty] = useState(1)
-    const nagivate = useNavigate()
+    const navigate = useNavigate()
 
     const fetchItem = async (first) => {
         try {
@@ -129,7 +129,7 @@ export default function Item(){
   }
 
 
-    if (!loading && (!selectedItem || selectedItem.state === 0)) nagivate("/")
+    if (!loading && (!selectedItem || selectedItem.state === 0)) navigate("/")
     if(loading) return <FullscreenLoading/>
 
     return (

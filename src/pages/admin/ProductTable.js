@@ -1,5 +1,5 @@
-import { Form, useFetcher, useNavigate } from "react-router-dom";
-import useSession, { ValidadeSession } from "../../hooks/useSession";
+import { useNavigate } from "react-router-dom";
+import { ValidadeSession } from "../../hooks/useSession";
 import API_URL from "../../config";
 import { useEffect, useState, useRef } from "react";
 import { Dialog } from "primereact/dialog";
@@ -92,18 +92,49 @@ export default function ProductTable() {
 
       if (!isEditMode) {
         // Create
-        formData.append("collection", selectedProduct.collection.collection_name);
-        formData.append("collection_id", selectedProduct.collection.collection_id,);
-        const responseText = await fetch(
-          `${API_URL}/server/?action=createProduct`,
-          {
+        formData.append(
+          "collection",
+          selectedProduct.collection.collection_name,
+        );
+        formData.append(
+          "collection_id",
+          selectedProduct.collection.collection_id,
+        );
+        console.log("A criar produto");
+        try {
+          const res = await fetch(`${API_URL}/server/?action=createProduct`, {
             method: "POST",
             body: formData,
-          },
-        ).then((res) => res.json());
+            credentials: "include",
+          });
+          console.log("Resposta HTTP:", res.status, res.statusText);
+          const text = await res.text();
+          console.log("Raw response:", text);
+          const responseText = JSON.parse(text);
 
-        if (responseText.success) {
-          products.push(selectedProduct);
+          if (responseText.success) {
+            products.push(selectedProduct);
+            setProducts([...products]);
+            setLoading(false);
+            hideDialog();
+          } else {
+            setLoading(false);
+            toast.current.show({
+              severity: "error",
+              summary: "Erro",
+              detail: "Falha ao criar produto.",
+              life: 5000,
+            });
+          }
+        } catch (fetchErr) {
+          console.error("ERRO no fetch createProduct:", fetchErr);
+          toast.current.show({
+            severity: "error",
+            summary: "Erro",
+            detail: "Falha ao criar produto. Ver console para detalhes.",
+            life: 5000,
+          });
+          setLoading(false);
         }
       } else {
         // EDIT
@@ -113,33 +144,53 @@ export default function ProductTable() {
         items.forEach((item) => {
           if (item.imageFile) {
             formData.append(item.item_id, item.imageFile);
-          }
-          else {
+          } else {
             formData.append("previousImage", item.itemImage);
           }
         });
-        const responseText = await fetch(
-          `${API_URL}/server/?action=editProduct`,
-          {
+        console.log("A editar");
+        try {
+          const res = await fetch(`${API_URL}/server/?action=editProduct`, {
             method: "POST",
             body: formData,
-          },
-        ).then((res) => res.text());
+            credentials: "include",
+          });
+          console.log("Resposta HTTP:", res.status, res.statusText);
+          const text = await res.text();
+          console.log("Raw response:", text);
+          const responseText = JSON.parse(text);
+          console.log("editou");
 
-        console.log(responseText)
-
-        if (responseText.success) {
-          for (let i = 0; i < products.length; i++) {
-            if (products[i].product_id === selectedProduct.product_id) {
-              products[i] = selectedProduct;
-              break;
+          if (responseText.success) {
+            for (let i = 0; i < products.length; i++) {
+              if (products[i].product_id === selectedProduct.product_id) {
+                products[i] = selectedProduct;
+                break;
+              }
             }
+            setProducts([...products]);
+            setLoading(false);
+            hideDialog();
+          } else {
+            setLoading(false);
+            toast.current.show({
+              severity: "error",
+              summary: "Erro",
+              detail: "Falha ao editar produto.",
+              life: 5000,
+            });
           }
+        } catch (fetchErr) {
+          console.error("ERRO no fetch editProduct:", fetchErr);
+          toast.current.show({
+            severity: "error",
+            summary: "Erro",
+            detail: "Falha ao editar produto. Ver console para detalhes.",
+            life: 5000,
+          });
+          setLoading(false);
         }
       }
-
-      setLoading(false);
-      hideDialog();
     } catch (err) {
       setLoading(false);
       console.log("Erro:", err);
@@ -206,7 +257,6 @@ export default function ProductTable() {
         credentials: "include",
       }).then((Response) => Response.json());
 
-
       if (res.success) {
         setAllProduct(res.response);
       }
@@ -233,7 +283,6 @@ export default function ProductTable() {
           : "Ocorreu um problema na eliminação do produto!",
         life: 3000,
       });
-      return;
     } else {
       const ok = await deleteItem(product);
 
@@ -245,7 +294,6 @@ export default function ProductTable() {
           : "Ocorreu um problema na eliminação do produto!",
         life: 3000,
       });
-      return;
     }
   };
 
@@ -268,7 +316,7 @@ export default function ProductTable() {
       ),
       header: "Tem a certeza?",
       accept: () => acceptDelete(product, false),
-      reject: () => { },
+      reject: () => {},
     });
   };
 
@@ -298,8 +346,6 @@ export default function ProductTable() {
       },
     ]);
   };
-
-
 
   const removeItem = (item_id) => {
     setItems((prev) => prev.filter((item) => item.item_id !== item_id));
@@ -384,9 +430,9 @@ export default function ProductTable() {
           prev.map((p) =>
             p.product_id === productId
               ? {
-                ...p,
-                state: result.newState,
-              }
+                  ...p,
+                  state: result.newState,
+                }
               : p,
           ),
         );
@@ -436,9 +482,6 @@ export default function ProductTable() {
   // -------------------------------------
   // RENDER
   // -------------------------------------
-
-
-
 
   const displayProducts = filteredProducts?.slice(first, first + rows);
   const onPageChange = (event) => {
@@ -756,7 +799,7 @@ export function ItemCard({ item, onRemove, onUpdate, isEditMode }) {
       </button>
       <label htmlFor={item.item_id}>
         <img
-          onClick={() => { }}
+          onClick={() => {}}
           className="change-item-image"
           src={
             item.itemImage
