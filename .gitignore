@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build output
+build/
+build.zip
+
+# IDE
+.idea/
+
+# macOS
+.DS_Store
+
+# environment
+.env
+.env.local
+
+# misc
+*.log
