@@ -1,0 +1,218 @@
+.collection-table-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 2rem;
+}
+
+/* -------- DataTable -------- */
+
+.collection-datatable {
+  margin-top: 1.5rem;
+  border: 1px solid rgba(80, 80, 80, 0.08);
+  border-radius: 4px;
+}
+
+.collection-datatable .p-datatable-header {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.collection-datatable .p-datatable-thead > tr > th {
+  background: rgba(80, 80, 80, 0.04);
+  color: var(--primary);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(80, 80, 80, 0.1);
+}
+
+.collection-datatable .p-datatable-tbody > tr {
+  transition: background 0.15s;
+}
+
+.collection-datatable .p-datatable-tbody > tr:hover {
+  background: rgba(80, 80, 80, 0.04);
+}
+
+.collection-datatable .p-datatable-tbody > tr > td {
+  padding: 1rem;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 0.95rem;
+  color: rgb(80, 80, 80);
+  border-bottom: 1px solid rgba(80, 80, 80, 0.06);
+}
+
+.collection-datatable .p-datatable-tbody > tr:last-child > td {
+  border-bottom: none;
+}
+
+.collection-datatable .p-datatable-emptymessage {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(80, 80, 80, 0.5);
+  font-family: "Times New Roman", Times, serif;
+  font-style: italic;
+}
+
+/* -------- Actions -------- */
+
+.collection-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.collection-action-btn {
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-action-btn.edit-btn {
+  color: rgba(113, 88, 26, 1);
+}
+
+.collection-action-btn.edit-btn:hover {
+  background-color: rgba(113, 88, 26, 0.1);
+}
+
+.collection-action-btn.delete-btn {
+  color: rgba(80, 80, 80, 0.4);
+}
+
+.collection-action-btn.delete-btn:hover {
+  color: #c0392b;
+  background-color: rgba(192, 57, 43, 0.08);
+}
+
+/* -------- Dialogs -------- */
+
+.collection-dialog .p-dialog-header {
+  background: rgba(80, 80, 80, 0.04);
+  border: none;
+  padding: 1.25rem 1.5rem;
+}
+
+.collection-dialog .p-dialog-header .p-dialog-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.2rem;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.collection-dialog .p-dialog-content {
+  background: #fbf9f9;
+  padding: 1.5rem;
+}
+
+/* -------- Form -------- */
+
+.collection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.collection-form-label {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: rgba(80, 80, 80, 0.7);
+  font-family: "Times New Roman", Times, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.collection-input {
+  width: 100%;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1rem;
+  color: rgb(80, 80, 80);
+  background: white;
+  border: 1px solid rgba(80, 80, 80, 0.1);
+  transition: all 0.2s;
+}
+
+.collection-input:hover {
+  border-color: rgba(80, 80, 80, 0.2);
+}
+
+.collection-input:focus {
+  outline: none;
+  border-color: rgba(113, 88, 26, 0.5);
+  background: rgba(80, 80, 80, 0.02);
+}
+
+.collection-input::placeholder {
+  color: rgba(80, 80, 80, 0.35);
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* -------- Buttons -------- */
+
+.collection-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(80, 80, 80, 0.06);
+}
+
+.collection-cancel-btn {
+  padding: 0.6rem 1.25rem;
+  border: 1px solid rgba(80, 80, 80, 0.15);
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: "Times New Roman", Times, serif;
+  color: rgba(80, 80, 80, 0.7);
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+}
+
+.collection-cancel-btn:hover {
+  background: rgba(80, 80, 80, 0.04);
+  border-color: rgba(80, 80, 80, 0.25);
+  color: rgb(80, 80, 80);
+}
+
+.collection-save-btn {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background: rgba(113, 88, 26, 1);
+  color: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: "Times New Roman", Times, serif;
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+}
+
+.collection-save-btn:hover {
+  background: rgba(113, 88, 26, 0.85);
+}
+
+/* -------- Switch -------- */
+
+.p-inputswitch.p-highlight .p-inputswitch-slider {
+  background: rgba(113, 88, 26, 1);
+}
+
+.p-inputswitch .p-inputswitch-slider {
+  background: rgba(80, 80, 80, 0.2);
+}
