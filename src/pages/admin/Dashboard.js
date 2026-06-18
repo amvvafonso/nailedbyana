@@ -46,7 +46,33 @@ export default function Dashboard() {
 
   // Dialogs
   const [isCollectionDialogOpen, setIsCollectionDialogOpen] = useState(false);
-  const [isTypeCollectionOpen, setIsTypeCollectionOpen] = useState(false)
+  const [isTypeCollectionOpen, setIsTypeCollectionOpen] = useState(false);
+
+  // ------------------------------------------------------------
+  // Dashboard Stats & Charts
+  // ------------------------------------------------------------
+  const [totalStats, setTotalStats] = useState(null);
+  const [salesByDate, setSalesByDate] = useState([]);
+  const [topContrasts, setTopContrasts] = useState([]);
+  const [reservationsByState, setReservationsByState] = useState([]);
+
+  const fetchDashboardStats = async () => {
+    const actions = [
+      { url: `${API_URL}/server/?action=getTotalStats`, setter: setTotalStats },
+      { url: `${API_URL}/server/?action=getSalesByDate`, setter: setSalesByDate },
+      { url: `${API_URL}/server/?action=getTopContrasts`, setter: setTopContrasts },
+      { url: `${API_URL}/server/?action=getReservationsByState`, setter: setReservationsByState },
+    ];
+    console.log(totalStats)
+    for (const { url, setter } of actions) {
+      try {
+        const res = await fetch(url, { credentials: "include" }).then((r) => r.json());
+        if (res.success) setter(res.response);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
 
   // ------------------------------------------------------------
   // Toast helpers
@@ -103,6 +129,7 @@ export default function Dashboard() {
   // Initial load
   useEffect(() => {
     fetchCollections();
+    fetchDashboardStats();
     setActiveCollectionName(collection);
   }, [collection]);
 
@@ -258,6 +285,114 @@ export default function Dashboard() {
   );
 
   // ------------------------------------------------------------
+  // Chart Data Configuration
+  // ------------------------------------------------------------
+  const chartColors = {
+    gold: "rgba(113, 88, 26, 0.8)",
+    goldLight: "rgba(113, 88, 26, 0.15)",
+    gray: "rgba(80, 80, 80, 0.6)",
+    grayLight: "rgba(80, 80, 80, 0.15)",
+    white: "#ffffff",
+  };
+
+  const chartDefaults = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: chartColors.gray },
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: chartColors.gray },
+        grid: { color: chartColors.grayLight },
+      },
+      y: {
+        ticks: { color: chartColors.gray },
+        grid: { color: chartColors.grayLight },
+      },
+    },
+  };
+
+  const doughnutDefaults = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: { color: chartColors.gray, padding: 15 },
+      },
+    },
+  };
+
+  const salesChartDS = salesByDate.length
+    ? {
+        labels: salesByDate.map((d) => d.day),
+        datasets: [
+          {
+            type: "line",
+            label: "Receita (€)",
+            borderColor: chartColors.gold,
+            backgroundColor: chartColors.goldLight,
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: chartColors.gold,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            data: salesByDate.map((d) => parseFloat(d.total_revenue)),
+          },
+          {
+            type: "bar",
+            label: "Nº Vendas",
+            backgroundColor: chartColors.gray,
+            borderColor: "#ffffff",
+            borderWidth: 1,
+            borderRadius: 4,
+            data: salesByDate.map((d) => d.sales_count),
+          },
+        ],
+      }
+    : { labels: [], datasets: [] };
+
+  const topContrastDS = topContrasts.length
+    ? {
+        labels: topContrasts.map((d) => d.contrast),
+        datasets: [
+          {
+            label: "Unidades Vendidas",
+            data: topContrasts.map((d) => parseInt(d.total_sold)),
+            backgroundColor: topContrasts.map((_, i) =>
+              i % 2 === 0 ? chartColors.gold : chartColors.gray
+            ),
+          },
+        ],
+      }
+    : { labels: [], datasets: [] };
+
+  const reservationColors = [
+    "#f1c40f", // pending
+    "#2ecc71", // confirmed
+    "#e74c3c", // cancelled
+    "#95a5a6", // concluded
+    "#9b59b6",
+    "#1abc9c",
+  ];
+
+  const reservationDS = reservationsByState.length
+    ? {
+        labels: reservationsByState.map((d) => d.state),
+        datasets: [
+          {
+            data: reservationsByState.map((d) => parseInt(d.count)),
+            backgroundColor: reservationsByState.map((_, i) => reservationColors[i % reservationColors.length]),
+            borderColor: "#ffffff",
+            borderWidth: 2,
+          },
+        ],
+      }
+    : { labels: [], datasets: [] };
+
+  // ------------------------------------------------------------
   // Page Guard
   // ------------------------------------------------------------
 
@@ -282,11 +417,71 @@ export default function Dashboard() {
           </div> */}
         </div>
         <BackofficeHeader title={"Olá, " + user.name} subtitle={"Aqui poderá ver um Overview da loja"} />
-        <div style={{display : 'flex', gap : '20px',justifyContent : 'space-evenly'}}>
-          <BackofficeCard title={"TOTAL DE PRODUTOS"} value={products.length + " Produtos"}/>
-          <BackofficeCard title={"COLEÇÂO"} value={collection}/>
-          <BackofficeCard />
+
+      {/* ---- Stats Cards ---- */}
+      <div style={{ display: "flex", gap: "20px", justifyContent: "space-evenly", marginTop: "20px" }}>
+        <BackofficeCard
+          title={"TOTAL VENDAS"}
+          value={totalStats?.sales ? `${totalStats.sales.total_sales} vendas` : "—"}
+        />
+        <BackofficeCard
+          title={"RECEITA TOTAL"}
+          value={totalStats?.sales ? `${parseFloat(totalStats.sales.total_revenue).toFixed(2)} €` : "—"}
+        />
+        <BackofficeCard
+          title={"VENDAS HOJE"}
+          value={totalStats?.today ? `${totalStats.today.count} (${parseFloat(totalStats.today.revenue).toFixed(2)} €)` : "—"}
+        />
+        <BackofficeCard
+            title={"RESERVAÇÕES PENDENTES"}
+          value={totalStats?.reservations.pending ? totalStats.reservations.pending : "—"}
+        />
+      </div>
+
+      {/* ---- Charts Row 1: Sales Over Time ---- */}
+      <div style={{ width: "80%", margin: "30px auto 0" }}>
+        <h2 className="dashboard-header" style={{ fontSize: "18px", marginBottom: "15px" }}>Vendas Últimos 30 Dias</h2>
+        <div style={{ height: "300px", backgroundColor: "rgba(80,80,80,0.05)", borderRadius: "8px", padding: "15px" }}>
+          <Chart
+            type="line"
+            data={salesChartDS}
+            options={{
+              ...chartDefaults,
+            }}
+          />
         </div>
+      </div>
+
+      {/* ---- Charts Row 2: Top Contrasts + Reservations ---- */}
+      <div style={{ display: "flex", gap: "20px", width: "80%", margin: "30px auto 0" }}>
+        <div style={{ flex: 1 }}>
+          <h2 className="dashboard-header" style={{ fontSize: "18px", marginBottom: "15px" }}>Top Contrastes</h2>
+          <div style={{ height: "300px", backgroundColor: "rgba(80,80,80,0.05)", borderRadius: "8px", padding: "15px" }}>
+            <Chart
+              type="bar"
+              data={topContrastDS}
+              options={{
+                ...chartDefaults,
+                indexAxis: "y",
+                scales: {
+                  x: { ticks: { color: chartColors.gray }, grid: { color: chartColors.grayLight } },
+                  y: { ticks: { color: chartColors.gray }, grid: { display: false } },
+                },
+              }}
+            />
+          </div>
+        </div>
+        <div style={{ flex: 1 }}>
+          <h2 className="dashboard-header" style={{ fontSize: "18px", marginBottom: "15px" }}>Reservas por Estado</h2>
+          <div style={{ height: "300px", backgroundColor: "rgba(80,80,80,0.05)", borderRadius: "8px", padding: "15px" }}>
+            <Chart
+              type="doughnut"
+              data={reservationDS}
+              options={doughnutDefaults}
+            />
+          </div>
+        </div>
+      </div>
       </div>
 
       {/* <Toast ref={toast} /> */}

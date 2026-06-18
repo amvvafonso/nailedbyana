@@ -24,7 +24,6 @@ export default function BackofficeProductCard({ product, type, deleteItem, editI
                         <p className="product-card-stock">{product?.total_stock} em stock</p>
               </div>
               <div className="edit-div">
-                <i title="Registar compra" className="product-card-btn pi pi-cart-arrow-down" />
                 <i onClick={() => editItem(product)} title="Editar" className="product-card-btn pi pi-pencil" />
                 <i onClick={() => deleteItem(product)} title="Eliminar" className="product-card-btn pi pi-trash" />
               </div>

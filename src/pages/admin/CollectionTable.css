@@ -98,7 +98,7 @@
 /* -------- Dialogs -------- */
 
 .collection-dialog .p-dialog-header {
-  background: rgba(80, 80, 80, 0.04);
+  background: rgb(251, 249, 249);
   border: none;
   padding: 1.25rem 1.5rem;
 }

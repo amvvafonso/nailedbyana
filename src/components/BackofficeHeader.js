@@ -1,6 +1,6 @@
 import "../styles/BackofficeHeader.css"
 
-export default function BackofficeHeader({ title, subtitle, onAdd, addButtonLabel }) {
+export default function BackofficeHeader({ title, subtitle, onAdd, addButtonLabel, actions }) {
 
   return (
     <>
@@ -10,11 +10,14 @@ export default function BackofficeHeader({ title, subtitle, onAdd, addButtonLabe
             <h1>{title}</h1>
             {subtitle && <p>{subtitle}</p>}
           </div>
-          {onAdd && addButtonLabel && (
-            <button className="header-add-btn" onClick={onAdd}>
-              {addButtonLabel}
-            </button>
-          )}
+          <div className="header-actions">
+            {actions}
+            {onAdd && addButtonLabel && (
+              <button className="header-add-btn" onClick={onAdd}>
+                {addButtonLabel}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>

@@ -868,6 +868,7 @@ export function ItemCard({ item, onRemove, onUpdate, isEditMode }) {
             <input
               className="item-input"
               style={commonElementStyle}
+              min={item.total_stock}
               placeholder="Stock"
               value={item.total_stock || ""}
               onChange={(e) =>
