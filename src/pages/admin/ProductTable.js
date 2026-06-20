@@ -89,7 +89,7 @@ export default function ProductTable() {
           formData.append(item.item_id, item.imageFile);
         }
       });
-
+      
       if (!isEditMode) {
         // Create
         formData.append(
@@ -100,6 +100,8 @@ export default function ProductTable() {
           "collection_id",
           selectedProduct.collection.collection_id,
         );
+        formData.append("visible", selectedProduct.visible)
+
         console.log("A criar produto");
         try {
           const res = await fetch(`${API_URL}/server/?action=createProduct`, {
@@ -141,6 +143,8 @@ export default function ProductTable() {
         formData.append("product_id", selectedProduct.product_id);
         formData.append("collection_id", selectedProduct.collection);
         formData.append("type", selectedProduct.type);
+        formData.append("visible", selectedProduct.visible)
+
         items.forEach((item) => {
           if (item.imageFile) {
             formData.append(item.item_id, item.imageFile);
@@ -674,7 +678,7 @@ export default function ProductTable() {
                         }}
                       >
                         <Checkbox
-                          inputId="IsProductVisible"
+                          inputId="visible"
                           checked={selectedProduct.visible == 1 ? true : false}
                           onChange={(e) => {
                             setSelectedProduct({
@@ -683,7 +687,7 @@ export default function ProductTable() {
                             });
                           }}
                         />
-                        <label htmlFor="IsProductVisible">Visivel</label>
+                        <label htmlFor="visible">Visivel</label>
                       </div>
                     </div>
                   </div>
