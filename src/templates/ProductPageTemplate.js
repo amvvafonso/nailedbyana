@@ -8,7 +8,7 @@ import { LoadingComponent } from "../components/Loading";
 
 export default function ProductPageTemplate({ title, products, types, loading, filters }) {
   const [filtered, setFiltered] = useState([]);
-  const [grid, setGrid] = useState(false);
+  const [viewMode, setViewMode] = useState(0); // 0 = 2 col, 1 = 1 col
   const [filterLoading, setFilterLoading] = useState(false);
   const [activeFilter, setActiveFilter] = useState(0);
   const toastt = useRef(null);
@@ -69,11 +69,11 @@ export default function ProductPageTemplate({ title, products, types, loading, f
         )}
 
         <button
-          onClick={() => setGrid(!grid)}
-          className="apresentation-button"
+          onClick={() => setViewMode(viewMode === 0 ? 1 : 0)}
+          className="view-mode-button"
           style={window.screen.width > 600 ? { display: 'none' } : {}}
         >
-          {!grid ? <span className="pi pi-th-large"></span> : <span className="pi pi-align-justify"></span>}
+          {viewMode === 0 ? <span className="pi pi-align-justify"></span> : <span className="pi pi-th-large"></span>}
         </button>
 
         {filterLoading && (
@@ -83,7 +83,7 @@ export default function ProductPageTemplate({ title, products, types, loading, f
         )}
 
         {!filterLoading && filtered.length > 0 ? (
-          <div className={grid ? "content-div-product-grid" : "content-div-product"}>
+          <div className={viewMode === 1 ? "content-div-product-single" : "content-div-product"}>
             <Toast ref={toastt} />
             {currentProducts.map((item) => (
               <DeferredContent key={item.id || item.product_id}>
