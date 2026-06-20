@@ -4,12 +4,13 @@ import API_URL from "../../config";
 import { useEffect, useState, useRef } from "react";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
 import "./Admin.css";
 import "../../styles/ProductTable.css";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import FullscreenLoading, { LoadingComponent } from "../../components/Loading";
-import { FaPlus, FaSearch, FaTrash } from "react-icons/fa";
+import { FaPlus, FaSearch, FaTrash, FaTimesCircle } from "react-icons/fa";
 import BackofficeHeader from "../../components/BackofficeHeader";
 import BackofficeProductCard from "../../components/BackofficeProductCard";
 import { Paginator } from "primereact/paginator";
@@ -38,7 +39,11 @@ export default function ProductTable() {
   // UI counters
   const [productCount, setProductCount] = useState(products?.length);
 
-  // product currently being edited or created
+  // filters
+  const [filterType, setFilterType] = useState(null);
+  const [filterCollection, setFilterCollection] = useState(null);
+  const [filterVisible, setFilterVisible] = useState(null);
+  const [searchText, setSearchText] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(new Product());
   const [items, setItems] = useState([]);
 
@@ -447,28 +452,41 @@ export default function ProductTable() {
   };
 
   // -------------------------------------
-  // FILTER PRODUCTS BY NAME / TYPE / COLLECTION
+  // FILTER PRODUCTS
   // -------------------------------------
-  const filterProducts = (query) => {
-    try {
-      if (!query) {
-        setFilteredProducts(products);
-        setProductCount(products?.length);
-        return;
-      }
+  // Re-apply filters whenever any filter or data changes
+  useEffect(() => {
+    if (!products) return;
+    let matched = [...products];
 
-      const normalized = query.toLowerCase();
-      const matched = products.filter(
+    const q = searchText.trim().toLowerCase();
+    if (q) {
+      matched = matched.filter(
         (p) =>
-          p.name.toLowerCase().includes(normalized) ||
-          p.contrast.toLowerCase().includes(normalized),
+          (p.name || "").toLowerCase().includes(q) ||
+          (p.contrast || "").toLowerCase().includes(q),
       );
-
-      setFilteredProducts(matched);
-      setProductCount(matched?.length);
-    } catch (err) {
-      console.log(err);
     }
+    if (filterType) {
+      matched = matched.filter((p) => p.type == filterType);
+    }
+    if (filterCollection) {
+      matched = matched.filter((p) => p.collection == filterCollection);
+    }
+    if (filterVisible !== null) {
+      matched = matched.filter((p) => p.visible == filterVisible);
+    }
+
+    setFilteredProducts(matched);
+    setProductCount(matched.length);
+    setFirst(0);
+  }, [products, searchText, filterType, filterCollection, filterVisible]);
+
+  const clearFilters = () => {
+    setFilterType(null);
+    setFilterCollection(null);
+    setFilterVisible(null);
+    setSearchText("");
   };
 
   // INITIAL LOAD
@@ -480,7 +498,7 @@ export default function ProductTable() {
   }, []);
 
   useEffect(() => {
-    setFilteredProducts(products);
+    // No-op — filtering is handled by the filter useEffect above
   }, [products]);
 
   // -------------------------------------
@@ -505,15 +523,54 @@ export default function ProductTable() {
         <div className="search-div">
           <div className="search-inner-div">
             <FaSearch color="rgba(var(--primary), 0.5)" />
-            <input
-              onChange={(e) => {
-                filterProducts(e.target.value);
-                setFirst(0);
-              }}
+            <InputText
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="search-input"
               placeholder={"SEARCH INVENTORY..."}
             />
           </div>
+        </div>
+        <div className="filters-bar">
+          <Dropdown
+            value={filterType}
+            onChange={(e) => setFilterType(e.value)}
+            options={typeOptions}
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Todos os tipos"
+            className="filter-dropdown"
+            showClear
+          />
+          <Dropdown
+            value={filterCollection}
+            onChange={(e) => setFilterCollection(e.value)}
+            options={collectionOptions}
+            optionLabel="collection_name"
+            optionValue="collection_id"
+            placeholder="Todas as coleções"
+            className="filter-dropdown"
+            showClear
+          />
+          <Dropdown
+            value={filterVisible}
+            onChange={(e) => setFilterVisible(e.value)}
+            options={[
+              { label: "Visíveis", value: 1 },
+              { label: "Não visíveis", value: 0 },
+            ]}
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Visibilidade"
+            className="filter-dropdown"
+            showClear
+          />
+          {(filterType || filterCollection || filterVisible !== null || searchText) && (
+            <button className="clear-filters-button" onClick={clearFilters}>
+              <FaTimesCircle style={{ marginRight: "6px" }} />
+              Limpar filtros
+            </button>
+          )}
         </div>
         <div style={{ display: "flex", flexDirection: "flow" }}>
           <BackofficeHeader

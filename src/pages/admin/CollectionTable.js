@@ -7,7 +7,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputSwitch } from "primereact/inputswitch";
 import { InputText } from "primereact/inputtext";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import BackofficeHeader from "../../components/BackofficeHeader";
 import FullscreenLoading from "../../components/Loading";
 import "./CollectionTable.css";
@@ -272,6 +272,48 @@ export default function CollectionTable() {
     }
   };
 
+  // Toggle visible for all products in collection
+  const toggleProductsVisible = async (collection) => {
+    try {
+      const formData = new FormData();
+      formData.append("collection_id", collection.collection_id);
+      formData.append("visible", "1");
+
+      const result = await fetch(
+        `${API_URL}/server/?action=activateCollectionProducts`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        },
+      ).then((res) => res.json());
+
+      if (result.status || result.success) {
+        toast.current.show({
+          severity: "success",
+          summary: "Sucesso",
+          detail: `${result.count ?? "Todos"} produtos da coleção "${collection.collection_name}" tornados visíveis!`,
+          life: 3000,
+        });
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Erro",
+          detail: result.error || "Falha ao ativar produtos da coleção.",
+          life: 3000,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.current.show({
+        severity: "error",
+        summary: "Erro",
+        detail: "Erro ao ativar produtos da coleção.",
+        life: 3000,
+      });
+    }
+  };
+
   // Column templates
   const activeBodyTemplate = (rowData) => (
     <InputSwitch
@@ -295,6 +337,13 @@ export default function CollectionTable() {
         title="Eliminar"
       >
         <FaTrash />
+      </span>
+      <span
+        className="collection-action-btn edit-btn"
+        onClick={() => toggleProductsVisible(rowData)}
+        title="Tornar produtos visíveis"
+      >
+        <FaEye />
       </span>
     </div>
   );
@@ -321,6 +370,7 @@ export default function CollectionTable() {
         <Column field="collection_id" header="ID" style={{ width: "80px" }} />
         <Column field="collection_name" header="Nome" />
         <Column field="year" header="Ano" style={{ width: "100px" }} />
+        <Column field="product_count" header="Produtos" style={{ width: "100px", textAlign: "center" }} />
         <Column
           header="Ativa"
           body={activeBodyTemplate}

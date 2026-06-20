@@ -1,5 +1,6 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "primeicons/primeicons.css";
 import "./Layout.css";
 
 import { ValidadeSession } from "../hooks/useSession";

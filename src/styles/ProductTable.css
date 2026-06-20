@@ -240,3 +240,53 @@
     cursor: pointer;
     background-color: rgba(200, 200, 200, 0.1);
 }
+
+/* FILTERS BAR */
+.filters-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+.filter-dropdown {
+    min-width: 180px;
+}
+
+.filter-dropdown .p-dropdown {
+    background-color: white;
+    border: 1px solid rgba(113, 88, 26, 0.2);
+    border-radius: 6px;
+    min-height: 38px;
+}
+
+.filter-dropdown .p-dropdown-label {
+    font-family: "Times New Roman", Times, serif;
+    color: rgba(80, 80, 80, 0.7);
+    padding: 8px 12px;
+}
+
+.filter-dropdown .p-dropdown-clear-icon {
+    color: #71581a;
+}
+
+.clear-filters-button {
+    background: none;
+    border: 1px dashed rgba(113, 88, 26, 0.4);
+    color: #71581a;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.clear-filters-button:hover {
+    background-color: rgba(113, 88, 26, 0.08);
+    border-color: #71581a;
+}
