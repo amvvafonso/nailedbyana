@@ -1,41 +1,39 @@
 import FullscreenLoading from "../components/Loading";
 import ProductTemplate from "../components/ProductTemplate";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { DeferredContent } from 'primereact/deferredcontent';
 import { Toast } from 'primereact/toast';
-import { Paginator } from 'primereact/paginator'; // Importado
+import { Paginator } from 'primereact/paginator';
+import { LoadingComponent } from "../components/Loading";
 
 export default function ProductPageTemplate({ title, products, types, loading, filters }) {
   const [filtered, setFiltered] = useState([]);
   const [grid, setGrid] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
+  const [activeFilter, setActiveFilter] = useState(0);
   const toastt = useRef(null);
 
-  // Estados da Paginação
   const [first, setFirst] = useState(0);
-  const [rows, setRows] = useState(16);  
-
+  const [rows, setRows] = useState(16);
 
   useEffect(() => {
     setFiltered(products);
-    types.sort((a, b) => a.type.localeCompare(b.type));
+    if (types && types.length > 0) {
+      const sorted = [...types].sort((a, b) => a.type.localeCompare(b.type));
+      types.length = 0;
+      types.push(...sorted);
+    }
   }, [products]);
 
-  const filter = (typeId) => {
-    try {
-      setFilterLoading(true);
-      const filteredProducts = typeId === 0 ? products : products.filter((p) => p.type === typeId);
-
-      setFiltered(filteredProducts);
-      setFirst(0); // Resetar para a primeira página ao filtrar
-
-      setTimeout(() => {
-        setFilterLoading(false);
-      }, 300);
-    } catch (es) {
-      console.log(es);
-    }
-  };
+  const filter = useCallback((typeId) => {
+    setFilterLoading(true);
+    setActiveFilter(typeId);
+    const filteredProducts = typeId == 0 ? products : products.filter((p) => p.type == typeId);
+    setFiltered(filteredProducts);
+    setFirst(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => setFilterLoading(false), 250);
+  }, [products]);
 
   const currentProducts = filtered.slice(first, first + rows);
 
@@ -47,47 +45,68 @@ export default function ProductPageTemplate({ title, products, types, loading, f
 
   return (
     <>
-      <h1 style={{ fontSize: "50px", textAlign: "center", fontWeight: "lighter", marginBottom: '50px' }}>
-        {title}
-      </h1>
-      
-      <div className="filter-button-div">
-        {filters ? (
-          <>
-            <button className="filter-button" onClick={() => filter(0)}>Todos</button>
-            {types.map((t) =>  (
+      <div className="collection-page">
+        <h1 className="collection-title">{title}</h1>
+
+        {filters && (
+          <div className="filter-button-div">
+            <button
+              className={`filter-button ${activeFilter === 0 ? 'active' : ''}`}
+              onClick={() => filter(0)}
+            >
+              Todos
+            </button>
+            {types.map((t) => (
               <button
                 key={t.type_id}
-                className="filter-button"
+                className={`filter-button ${activeFilter == t.type_id ? 'active' : ''}`}
                 onClick={() => filter(t.type_id)}
               >
                 {t.type}
               </button>
             ))}
-          </>
-        ) : ''}
-        <button onClick={() => setGrid(!grid)} style={window.screen.width > 600 ? { display: 'none' } : {}} className="apresentation-button">
+          </div>
+        )}
+
+        <button
+          onClick={() => setGrid(!grid)}
+          className="apresentation-button"
+          style={window.screen.width > 600 ? { display: 'none' } : {}}
+        >
           {!grid ? <span className="pi pi-th-large"></span> : <span className="pi pi-align-justify"></span>}
         </button>
-      </div>
 
-      {products.length != 0 ?  <div className={grid ? "content-div-product-grid" : "content-div-product"}>
-        <Toast ref={toastt} />
-        {currentProducts.map((item) => (
-          <DeferredContent key={item.id || item.product_id}>
-            <ProductTemplate product={item} />
-          </DeferredContent>
-        ))}
-      </div> : <h3 style={{textAlign : 'center'}}>Não existe nenhum produto atualmente</h3>}
+        {filterLoading && (
+          <div className="filter-loading-overlay">
+            <LoadingComponent />
+          </div>
+        )}
 
-      <div className="paginator-container" style={{ marginTop: '20px' }}>
-        <Paginator 
-          first={first} 
-          rows={rows} 
-          totalRecords={filtered.length} 
-          onPageChange={onPageChange} 
-          template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-        />
+        {!filterLoading && filtered.length > 0 ? (
+          <div className={grid ? "content-div-product-grid" : "content-div-product"}>
+            <Toast ref={toastt} />
+            {currentProducts.map((item) => (
+              <DeferredContent key={item.id || item.product_id}>
+                <ProductTemplate product={item} />
+              </DeferredContent>
+            ))}
+          </div>
+        ) : !filterLoading ? (
+          <div className="empty-state">
+            <span className="pi pi-search empty-icon" />
+            <p>Não existem produtos para mostrar</p>
+          </div>
+        ) : null}
+
+        <div className="paginator-container">
+          <Paginator
+            first={first}
+            rows={rows}
+            totalRecords={filtered.length}
+            onPageChange={onPageChange}
+            template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          />
+        </div>
       </div>
     </>
   );
