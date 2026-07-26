@@ -94,19 +94,16 @@ export default function ProductTable() {
           formData.append(item.item_id, item.imageFile);
         }
       });
-      
+
       if (!isEditMode) {
         // Create
-        formData.append(
-          "collection",
-          selectedProduct.collection.collection_name,
-        );
+        formData.append("collection", selectedProduct.collection);
         formData.append(
           "collection_id",
           selectedProduct.collection.collection_id,
         );
-        formData.append("visible", selectedProduct.visible)
-
+        formData.append("visible", selectedProduct.visible);
+        console.log(formData);
         console.log("A criar produto");
         try {
           const res = await fetch(`${API_URL}/server/?action=createProduct`, {
@@ -148,13 +145,13 @@ export default function ProductTable() {
         formData.append("product_id", selectedProduct.product_id);
         formData.append("collection_id", selectedProduct.collection);
         formData.append("type", selectedProduct.type);
-        formData.append("visible", selectedProduct.visible)
+        formData.append("visible", selectedProduct.visible);
 
         items.forEach((item) => {
           if (item.imageFile) {
             formData.append(item.item_id, item.imageFile);
           } else {
-            formData.append("previousImage", item.itemImage);
+            formData.append(`previousImage_${item.item_id}`, item.itemImage);
           }
         });
         console.log("A editar");
@@ -565,7 +562,10 @@ export default function ProductTable() {
             className="filter-dropdown"
             showClear
           />
-          {(filterType || filterCollection || filterVisible !== null || searchText) && (
+          {(filterType ||
+            filterCollection ||
+            filterVisible !== null ||
+            searchText) && (
             <button className="clear-filters-button" onClick={clearFilters}>
               <FaTimesCircle style={{ marginRight: "6px" }} />
               Limpar filtros
@@ -758,7 +758,6 @@ export default function ProductTable() {
                       optionLabel="collection_name"
                       optionValue="collection_id"
                       onChange={(e) => {
-                        console.log(e.value);
                         setSelectedProduct({
                           ...selectedProduct,
                           collection: e.value,
